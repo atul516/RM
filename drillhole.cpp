@@ -1,27 +1,29 @@
 #include "drillhole.h"
 #include <stdio.h>
 #include"parseCSV.h"
+
 int DrillHole::drawHole(){
+    this->image = new ImageLoader();
     for(int i=0;i<6;i++){
         temp[i] = atof(spcf[0][i].c_str());
         name[i] = spcf[1][i];
         if(name[i].compare("water") == 0){
-            this->textureId[i] = this->image.Water;
+            this->textureId[i] = this->image->Water;
         }
         else if(name[i].compare("sandstone")== 0){
-            this->textureId[i] = this->image.Sandstone;
+            this->textureId[i] = this->image->Sandstone;
         }
         else if(name[i].compare("marble")== 0){
-            this->textureId[i] = this->image.Marble;
+            this->textureId[i] = this->image->Marble;
         }
         else if(name[i].compare("shale")== 0){
-            this->textureId[i] = this->image.Shale;
+            this->textureId[i] = this->image->Shale;
         }
         else if(name[i].compare("coal")== 0){
-            this->textureId[i] = this->image.Coal;
+            this->textureId[i] = this->image->Coal;
         }
         else{
-            this->textureId[i] = this->image.Tex;
+            this->textureId[i] = this->image->Tex;
         }
 
         if(spcf[2][i].compare("!") == 0){
@@ -194,5 +196,4 @@ void DrillHole::paintGL() {
 DrillHole::DrillHole(const char *filenm){
     //std::cout<<filenm;
     this->spcf = parseData(filenm);
-    this->image.initialize();
 }

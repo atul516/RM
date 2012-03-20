@@ -109,9 +109,6 @@ namespace {
 }
 
 ImageLoader::ImageLoader(){
-}
-
-void ImageLoader::initialize(){
     loadImages();
 }
 
@@ -119,19 +116,11 @@ GLuint ImageLoader::loadTexture(Image* image) {
     GLuint textureId1;
     glGenTextures(1, &textureId1);
     glBindTexture(GL_TEXTURE_2D, textureId1);
-    glTexImage2D(GL_TEXTURE_2D,
-                 0,
-                 GL_RGB,
-                 image->width, image->height,
-                 0,
-                 GL_RGB,
-                 GL_UNSIGNED_BYTE,
-                 image->pixels);
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, image->width, image->height, 0, GL_RGB, GL_UNSIGNED_BYTE, image->pixels );
     return textureId1;
 }
 
 void ImageLoader::loadImages(){
-
     Image* image = loadBMP("coal.bmp");
     Coal = loadTexture(image);
     delete image;

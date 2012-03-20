@@ -7,7 +7,7 @@ class DrillHole : public GLWidget{
 private:
     GLuint textureId[6]; //The OpenGL id of the texture
     std::vector< std::vector<std::string> > spcf;
-    ImageLoader image;
+    ImageLoader *image;
     QString str;
     QFont f;
     QString hole_id;

@@ -32,7 +32,6 @@ public:
     GLuint Marble; //The OpenGL id of the texture
     GLuint Tex; //The OpenGL id of the texture
     ImageLoader();
-    void initialize();
 };
 
 Image* loadBMP(const char* filename);
