@@ -9,8 +9,11 @@ private:
     float hole_length;
 public:
     void setHoleId(const char*);
-    void setHoleDip(const char*);
+    void setHoleDip(float);
     void setHoleLength(float);
+    std::string getHoleId();
+    float getHoleDip();
+    float getHoleLength();
     std::vector< std::string > material_name;
     std::vector< float > material_depth;
     std::vector< std::vector< std::string > > other_material_properties;

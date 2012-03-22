@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Resource Modeling");
     ui->checkBox->setCheckable(false);
     ui->checkBox_2->setCheckable(false);
     ui->comboBox->setDisabled(true);
@@ -35,22 +36,22 @@ void MainWindow::on_pushButton_clicked()
     this->holes_info_file = ui->lineEdit_2->text().toStdString();
     ui->checkBox->setCheckable(true);
     ui->checkBox_2->setCheckable(true);
-    ui->checkBox_2->setChecked(true);
+    ui->checkBox->setChecked(true);
+    this->hole = new DrawHole(this->holes_file.c_str(),this->holes_info_file.c_str());
+    this->updateHoles(this->hole->getHoleCount());
+    ui->comboBox->setDisabled(false);
 }
 
 void MainWindow::on_checkBox_2_stateChanged(int arg1)
 {
     if(ui->checkBox->isCheckable()){
         if(ui->checkBox_2->isChecked()){
-            this->hole = new DrawHole(this->holes_file.c_str(),this->holes_info_file.c_str(),0);
             ui->checkBox->setChecked(false);
             ui->comboBox->setDisabled(true);
         }
         else {
-            this->hole = new DrawHole(this->holes_file.c_str(),this->holes_info_file.c_str(),1);
             ui->checkBox->setChecked(true);
             ui->comboBox->setDisabled(false);
-            this->updateHoles(this->hole->getHoleCount());
         }
     }
 }
@@ -69,12 +70,14 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
 {
     if(this->hole != NULL){
         if(ui->checkBox->isChecked()){
-            this->hole->setDisplayType(1);
+            ui->comboBox->setDisabled(false);
             ui->checkBox_2->setChecked(false);
+            this->hole->setDisplayType(1);
         }
         else {
-            this->hole->setDisplayType(0);
             ui->checkBox_2->setChecked(true);
+            ui->comboBox->setDisabled(true);
+            this->hole->setDisplayType(0);
         }
     }
 }

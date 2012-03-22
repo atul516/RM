@@ -7,14 +7,14 @@
 #include <map>
 class DrawHole : public GLWidget{
 private:
-    GLuint textureId[6]; //The OpenGL id of the texture
+    GLuint textureId[7]; //The OpenGL id of the texture
     std::vector< std::vector<std::string> > spcf;
     std::vector< std::vector<std::string> > hole_info;
-    std::vector< Hole* > holes;
+    std::vector< Hole > holes;
     std::map< std::string, GLuint > textures;
     ImageLoader *image;
     int which_hole;
-    QString str;
+    std::stringstream label;
     int single;
     QFont f;
     std::string property_name[10];
@@ -22,11 +22,9 @@ private:
     std::string property_unit[10];
     int no_of_holes;
     int no_of_properties;
-    QString hole_location;
-    QString hole_direction;
     std::vector<float> temp;
 public:
-    DrawHole(const char *, const char *, int);
+    DrawHole(const char *, const char *);
     int Lithology();
     int Property();
     int Caption();

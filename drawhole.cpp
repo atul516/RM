@@ -3,13 +3,12 @@
 #include"parseCSV.h"
 
 int DrawHole::drawHole(){
-    this->setHoleParams();
     this->setTextures();
     if(isSingle())
         this->Caption();
     else
         glTranslatef(17.6f, 2.0f, 0.0f);
-    this->Lithology();
+    //this->Lithology();
     return 1;
 }
 
@@ -22,8 +21,7 @@ void DrawHole::setHoleParams(){
      * Extract hole properties for all holes
      */
     std::string sep("#"); // Separater used in the input file
-    Hole *h = new Hole();
-    if(spcf[0][0].compare(sep.append("format")) != 0)
+    if(spcf[0][0].compare("@format") != 0)
         displayError("File format incorrect!!!");
 
     // Start extracting the format of hole property info
@@ -34,12 +32,13 @@ void DrawHole::setHoleParams(){
         property_unit[i-1] = spcf[i][2];
         i++;
     }
-
     // Start extracting from hole material properties
+    Hole *h = new Hole();
     no_of_properties = i-1;
     std::vector< std::string > property;
     no_of_holes = 0;
     int property_counter = 0;
+    i++;
     while(i<((int)this->spcf.size())){
         if(spcf[i][0].compare(sep) == 0){
             no_of_holes++;
@@ -51,7 +50,7 @@ void DrawHole::setHoleParams(){
                 else
                     h->material_depth.push_back(temp[c]/REDUCTION_FACTOR);
             }
-            this->holes.push_back(h);
+            this->holes.push_back(*h);
             temp.clear();
             property.clear();
             h = NULL;
@@ -76,9 +75,10 @@ void DrawHole::setHoleParams(){
     //start extracting hole id,length,dip etc.
     i=0;
     while(i<((int)this->hole_info.size())){
-        this->holes[i]->setHoleId(this->hole_info[i][0].c_str());
-        this->holes[i]->setHoleLength(atof(this->hole_info[i][1].c_str()));
-        this->holes[i]->setHoleDip(this->hole_info[i][2].c_str());
+        this->holes[i].setHoleId(this->hole_info[i][0].c_str());
+        this->holes[i].setHoleLength(atof(this->hole_info[i][1].c_str()));
+        this->holes[i].setHoleDip(atof(this->hole_info[i][2].c_str()));
+        i++;
     }
 } // Done extracting hole properties
 
@@ -113,18 +113,29 @@ void DrawHole::setTextures(){
 } // Done loading textures
 
 int DrawHole::Caption(){
+    /*
+     * Draw Hole Caption in case of single hole
+     */
+    if(!isSingle())
+        return 0;
+    // Display Hole Imformation
     glTranslatef(-4.6f, 0.9f, 0.0f);
-    hole_id = QString("Hole 1");
-    renderText(0.0f, 0.0f, DISPLAY_HEIGHT, hole_id,f);
+    label.str(std::string());
+    label << "Hole Id : " << this->holes[which_hole].getHoleId().c_str();
+    renderText(0.0f, 0.0f, DISPLAY_HEIGHT, QString(label.str().c_str()),f);
     glTranslatef(0.0f, -0.4f, 0.0f);
-    hole_location = QString("Location : xyz");
-    renderText(0.0f, 0.0f, DISPLAY_HEIGHT, hole_location,f);
+    label.str(std::string());
+    label << "Length : " << this->holes[which_hole].getHoleLength();
+    renderText(0.0f, 0.0f, DISPLAY_HEIGHT, QString(label.str().c_str()),f);
     glTranslatef(0.0f, -0.4f, 0.0f);
-    hole_direction = QString("Direction : Vertical");
-    renderText(0.0f, 0.0f, DISPLAY_HEIGHT, hole_direction,f);
+    label.str(std::string());
+    label << "Dip : " << this->holes[which_hole].getHoleDip();
+    renderText(0.0f, 0.0f, DISPLAY_HEIGHT, QString(label.str().c_str()),f);
+    label.str(std::string());
 
     glTranslatef(-0.5f, -0.7f, 0.0f);
 
+    // Draw different display blocks
     glBegin(GL_QUADS);
     glVertex3f(0.0f, 0.0f, DISPLAY_HEIGHT);
     glVertex3f( 25.0f, 0.0f, DISPLAY_HEIGHT);
@@ -136,38 +147,35 @@ int DrawHole::Caption(){
     glVertex3f( 0.02f, 0.0f, DISPLAY_HEIGHT);
     glVertex3f( 0.02f, -13.0f, DISPLAY_HEIGHT);
     glVertex3f(0.0f, -13.0f, DISPLAY_HEIGHT);
-    glEnd();
-    glBegin(GL_QUADS);
-    glVertex3f(8.00f, 0.0f, DISPLAY_HEIGHT);
-    glVertex3f( 8.02f, 0.0f, DISPLAY_HEIGHT);
-    glVertex3f( 8.02f, -13.0f, DISPLAY_HEIGHT);
-    glVertex3f(8.00f, -13.0f, DISPLAY_HEIGHT);
-    glEnd();
-    glBegin(GL_QUADS);
-    glVertex3f(14.00f, 0.0f, DISPLAY_HEIGHT);
-    glVertex3f( 14.02f, 0.0f, DISPLAY_HEIGHT);
-    glVertex3f( 14.02f, -13.0f, DISPLAY_HEIGHT);
-    glVertex3f(14.00f, -13.0f, DISPLAY_HEIGHT);
-    glEnd();
-    glBegin(GL_QUADS);
-    glVertex3f(20.00f, 0.0f, DISPLAY_HEIGHT);
-    glVertex3f( 20.02f, 0.0f, DISPLAY_HEIGHT);
-    glVertex3f( 20.02f, -13.0f, DISPLAY_HEIGHT);
-    glVertex3f(20.00f, -13.0f, DISPLAY_HEIGHT);
-    glEnd();
-
+    glEnd();    
+    glTranslatef(8.0f, 0.0f, 0.0f);
+    for(int i=2;i<no_of_properties;i++){
+        glBegin(GL_QUADS);
+        glVertex3f(0.00f, 0.0f, DISPLAY_HEIGHT);
+        glVertex3f( 0.02f, 0.0f, DISPLAY_HEIGHT);
+        glVertex3f( 0.02f, -13.0f, DISPLAY_HEIGHT);
+        glVertex3f(0.00f, -13.0f, DISPLAY_HEIGHT);
+        glEnd();
+        glTranslatef(6.0f, 0.0f, 0.0f);
+    }
     glTranslatef(0.5f, 0.7f, 0.0f);
+    glTranslatef(-(8.0f + (no_of_properties-2)*6.0f), 0.0f, 0.0f);
 
+    // Display hole properties' names and units
     glTranslatef(5.0f, -0.4f, 0.0f);
-    renderText(0.0f, 0.0f, DISPLAY_HEIGHT, QString("Material Type"),f);
+    label.str(std::string());
+    label << "Material Type";
+    renderText(0.0f, 0.0f, DISPLAY_HEIGHT, QString(""),f);
     glTranslatef(3.0f, 0.0f, 0.0f);
-    renderText(0.0f, 0.0f, DISPLAY_HEIGHT, QString("UCS (in MPa)"),f);
-    glTranslatef(6.0f, 0.0f, 0.0f);
-    renderText(0.0f, 0.0f, DISPLAY_HEIGHT, QString("RQD index"),f);
-    glTranslatef(6.0f, 0.0f, 0.0f);
-    renderText(0.0f, 0.0f, DISPLAY_HEIGHT, QString("Rock Hardness"),f);
-}
-
+    for(int i=2;i<no_of_properties;i++){
+        label.str(std::string());
+        label << property_name[i] << " (in " << property_unit[i] << ")";
+        renderText(0.0f, 0.0f, DISPLAY_HEIGHT, QString(label.str().c_str()),f);
+        glTranslatef(6.0f, 0.0f, 0.0f);
+    }
+    return 1;
+} // Done drawing caption
+/*
 int DrawHole::Lithology(){
     glTranslatef(-17.6f, -2.0f, 0.0f);
     glEnable(GL_TEXTURE_2D);
@@ -215,7 +223,7 @@ int DrawHole::Lithology(){
     }
     glDisable(GL_TEXTURE_2D);
 }
-
+*/
 void DrawHole::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
@@ -246,10 +254,11 @@ void DrawHole::paintGL() {
    */
 }
 
-DrawHole::DrawHole(const char *holes_file, const char *holes_info_file, int type){
+DrawHole::DrawHole(const char* holes_file, const char* holes_info_file){
     this->spcf = parseData(holes_file);
     this->hole_info = parseData(holes_info_file);
-    this->setDisplayType(type);
+    this->setHoleParams();
+    this->setDisplayType(1);
     this->setHole(0);
 }
 

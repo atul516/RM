@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed Mar 21 20:28:35 2012
+** Created: Fri Mar 23 03:06:34 2012
 **      by: Qt User Interface Compiler version 4.7.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -93,10 +93,6 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("MainWindow", "Holes Data File:", 0, QApplication::UnicodeUTF8));
         lineEdit->setText(QApplication::translate("MainWindow", "hole.csv", 0, QApplication::UnicodeUTF8));
-        comboBox->clear();
-        comboBox->insertItems(0, QStringList()
-         << QApplication::translate("MainWindow", "Hole 1", 0, QApplication::UnicodeUTF8)
-        );
         checkBox->setText(QApplication::translate("MainWindow", "Single Hole", 0, QApplication::UnicodeUTF8));
         checkBox_2->setText(QApplication::translate("MainWindow", "All Holes", 0, QApplication::UnicodeUTF8));
         pushButton->setText(QApplication::translate("MainWindow", "Parse", 0, QApplication::UnicodeUTF8));
