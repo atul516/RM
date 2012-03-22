@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "drillhole.h"
+#include "drawhole.h"
 
 namespace Ui {
     class MainWindow;
@@ -19,16 +19,14 @@ protected:
 
 private slots:
     void on_pushButton_clicked();
-
     void on_checkBox_2_stateChanged(int arg1);
-
     void on_pushButton_2_clicked();
-
     void on_checkBox_stateChanged(int arg1);
+    void updateHoles(int);
 
 private:
     Ui::MainWindow *ui;
-    DrillHole *hole;
+    DrawHole *hole;
     std::string holes_file;
     std::string holes_info_file;
 };

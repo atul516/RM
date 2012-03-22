@@ -1,5 +1,5 @@
 #include <QtGui/QApplication>
-#include "drillhole.h"
+#include "drawhole.h"
 #include "mainwindow.h"
 
 int main(int argc, char *argv[])

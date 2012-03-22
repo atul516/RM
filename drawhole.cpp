@@ -1,9 +1,10 @@
-#include "drillhole.h"
+#include "drawhole.h"
 #include <stdio.h>
 #include"parseCSV.h"
 
-int DrillHole::drawHole(){
-    this->setParams();
+int DrawHole::drawHole(){
+    this->setHoleParams();
+    this->setTextures();
     if(isSingle())
         this->Caption();
     else
@@ -12,17 +13,20 @@ int DrillHole::drawHole(){
     return 1;
 }
 
-void DrillHole::displayError(){
+void DrawHole::displayError(const char* s){
 
 }
 
-void DrillHole::setParams(){
-    this->image = new ImageLoader();
-    std::string sep("#");
+void DrawHole::setHoleParams(){
+    /*
+     * Extract hole properties for all holes
+     */
+    std::string sep("#"); // Separater used in the input file
     Hole *h = new Hole();
     if(spcf[0][0].compare(sep.append("format")) != 0)
         displayError("File format incorrect!!!");
 
+    // Start extracting the format of hole property info
     int i=1;
     while(spcf[i][0].compare(sep) != 0){
         property_name[i-1] = spcf[i][0];
@@ -30,12 +34,14 @@ void DrillHole::setParams(){
         property_unit[i-1] = spcf[i][2];
         i++;
     }
+
+    // Start extracting from hole material properties
     no_of_properties = i-1;
     std::vector< std::string > property;
     no_of_holes = 0;
     int property_counter = 0;
     while(i<((int)this->spcf.size())){
-        if(spcf[i][j].compare(sep) == 0){
+        if(spcf[i][0].compare(sep) == 0){
             no_of_holes++;
             property_counter = 0;
             i++;
@@ -46,12 +52,13 @@ void DrillHole::setParams(){
                     h->material_depth.push_back(temp[c]/REDUCTION_FACTOR);
             }
             this->holes.push_back(h);
-            temp = NULL;
+            temp.clear();
+            property.clear();
             h = NULL;
             h = new Hole();
             continue;
         }
-        for(int k=0;k<((int)this->spcf[j].size());k++){
+        for(int k=0;k<((int)this->spcf[i].size());k++){
             if(property_counter == 0)
                 temp.push_back(atof(spcf[i][k].c_str()));
             else if(property_counter == 1)
@@ -66,34 +73,49 @@ void DrillHole::setParams(){
         i++;
     }
 
+    //start extracting hole id,length,dip etc.
+    i=0;
+    while(i<((int)this->hole_info.size())){
+        this->holes[i]->setHoleId(this->hole_info[i][0].c_str());
+        this->holes[i]->setHoleLength(atof(this->hole_info[i][1].c_str()));
+        this->holes[i]->setHoleDip(this->hole_info[i][2].c_str());
+    }
+} // Done extracting hole properties
+
+void DrawHole::setTextures(){
+    /*
+     * Load all available texture bitmaps
+     */
+    this->image = new ImageLoader();
+    std::string name;
     for(int i=0;i<((int)this->spcf[0].size());i++){
-        temp[i] = atof(spcf[0][i].c_str());
-        name[i] = spcf[1][i];
-        if(name[i].compare("water") == 0){
+        name = spcf[1][i];
+        if(name.compare("water") == 0){
             this->textureId[i] = this->image->Water;
         }
-        else if(name[i].compare("sandstone")== 0){
+        else if(name.compare("sandstone")== 0){
             this->textureId[i] = this->image->Sandstone;
         }
-        else if(name[i].compare("marble")== 0){
+        else if(name.compare("marble")== 0){
             this->textureId[i] = this->image->Marble;
         }
-        else if(name[i].compare("shale")== 0){
+        else if(name.compare("shale")== 0){
             this->textureId[i] = this->image->Shale;
         }
-        else if(name[i].compare("coal")== 0){
+        else if(name.compare("coal")== 0){
             this->textureId[i] = this->image->Coal;
         }
         else{
             this->textureId[i] = this->image->Tex;
         }
+        textures.insert ( std::pair<std::string,GLuint>(name,textureId[i]) ); // Insert texture to the texture map
     }
-}
+} // Done loading textures
 
-int DrillHole::Caption(){
+int DrawHole::Caption(){
     glTranslatef(-4.6f, 0.9f, 0.0f);
-    //hole_id = QString("Hole 1");
-    //renderText(0.0f, 0.0f, DISPLAY_HEIGHT, hole_id,f);
+    hole_id = QString("Hole 1");
+    renderText(0.0f, 0.0f, DISPLAY_HEIGHT, hole_id,f);
     glTranslatef(0.0f, -0.4f, 0.0f);
     hole_location = QString("Location : xyz");
     renderText(0.0f, 0.0f, DISPLAY_HEIGHT, hole_location,f);
@@ -146,7 +168,7 @@ int DrillHole::Caption(){
     renderText(0.0f, 0.0f, DISPLAY_HEIGHT, QString("Rock Hardness"),f);
 }
 
-int DrillHole::Lithology(){
+int DrawHole::Lithology(){
     glTranslatef(-17.6f, -2.0f, 0.0f);
     glEnable(GL_TEXTURE_2D);
     for(int i=0;i<spcf[0].size();i++){
@@ -194,7 +216,7 @@ int DrillHole::Lithology(){
     glDisable(GL_TEXTURE_2D);
 }
 
-void DrillHole::paintGL() {
+void DrawHole::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     //glRotatef(_angle,0.0f,1.0f,0.0f);                     // Rotate On The Y Axis
@@ -208,7 +230,7 @@ void DrillHole::paintGL() {
     glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor);
     glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
     glTranslatef(this->left, this->top, this->depth);
-    //DrillHole h;
+    //DrawHole h;
     this->drawHole();
     /*
     glLoadIdentity();
@@ -223,14 +245,27 @@ void DrillHole::paintGL() {
    GLWidget::m_timer->start(100);
    */
 }
-DrillHole::DrillHole(const char *holes_file, const char *holes_info_file, int type){
+
+DrawHole::DrawHole(const char *holes_file, const char *holes_info_file, int type){
     this->spcf = parseData(holes_file);
     this->hole_info = parseData(holes_info_file);
     this->setDisplayType(type);
+    this->setHole(0);
 }
-void DrillHole::setDisplayType(int t){
+
+void DrawHole::setDisplayType(int t){
     this->single = t;
 }
-bool DrillHole::isSingle(){
+
+bool DrawHole::isSingle(){
     return this->single;
+}
+
+void DrawHole::setHole(int h){
+    if(isSingle())
+        which_hole = h;
+}
+
+int DrawHole::getHoleCount(){
+    return no_of_holes;
 }

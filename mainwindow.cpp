@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->checkBox->setCheckable(false);
     ui->checkBox_2->setCheckable(false);
+    ui->comboBox->setDisabled(true);
     this->hole = NULL;
 }
 
@@ -41,12 +42,15 @@ void MainWindow::on_checkBox_2_stateChanged(int arg1)
 {
     if(ui->checkBox->isCheckable()){
         if(ui->checkBox_2->isChecked()){
-            this->hole = new DrillHole(this->holes_file.c_str(),this->holes_info_file.c_str(),0);
+            this->hole = new DrawHole(this->holes_file.c_str(),this->holes_info_file.c_str(),0);
             ui->checkBox->setChecked(false);
+            ui->comboBox->setDisabled(true);
         }
         else {
-            this->hole = new DrillHole(this->holes_file.c_str(),this->holes_info_file.c_str(),1);
+            this->hole = new DrawHole(this->holes_file.c_str(),this->holes_info_file.c_str(),1);
             ui->checkBox->setChecked(true);
+            ui->comboBox->setDisabled(false);
+            this->updateHoles(this->hole->getHoleCount());
         }
     }
 }
@@ -54,6 +58,9 @@ void MainWindow::on_checkBox_2_stateChanged(int arg1)
 void MainWindow::on_pushButton_2_clicked()
 {
     if(this->hole != NULL){
+        if(ui->checkBox->isChecked()){
+            this->hole->setHole(ui->comboBox->currentIndex());
+        }
         this->hole->show();
     }
 }
@@ -69,5 +76,17 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
             this->hole->setDisplayType(0);
             ui->checkBox_2->setChecked(true);
         }
+    }
+}
+
+std::string append_number(std::string const& x, unsigned int num) {
+        std::stringstream s;
+        s << x << num;
+        return s.str();
+    }
+
+void MainWindow::updateHoles(int h){
+    for(int i=1;i<=h;i++){
+        ui->comboBox->addItem(QString(append_number("Hole ",i).c_str()));
     }
 }

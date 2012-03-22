@@ -136,7 +136,7 @@ void ImageLoader::loadImages(){
     image = loadBMP("water.bmp");
     Water = loadTexture(image);
     delete image;
-    image = loadBMP("tex.bmp");
+    image = loadBMP("tex1.bmp");
     Tex = loadTexture(image);
     delete image;
 }

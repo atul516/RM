@@ -1,16 +1,19 @@
-#ifndef DRILLHOLE_H
-#define DRILLHOLE_H
+#ifndef DRAWHOLE_H
+#define DRAWHOLE_H
 
 #include <sstream>
 #include "imageloader.h"
 #include "hole.h"
-class DrillHole : public GLWidget{
+#include <map>
+class DrawHole : public GLWidget{
 private:
-    GLuint *textureId[6]; //The OpenGL id of the texture
+    GLuint textureId[6]; //The OpenGL id of the texture
     std::vector< std::vector<std::string> > spcf;
     std::vector< std::vector<std::string> > hole_info;
-    std::vector< Hole > holes;
+    std::vector< Hole* > holes;
+    std::map< std::string, GLuint > textures;
     ImageLoader *image;
+    int which_hole;
     QString str;
     int single;
     QFont f;
@@ -22,22 +25,21 @@ private:
     QString hole_location;
     QString hole_direction;
     std::vector<float> temp;
-    float UCS[10];
-    float RQD[10];
-    std::string UCS_str[10];
-    std::string RQD_str[10];
 public:
-    DrillHole(const char *, const char *, int);
+    DrawHole(const char *, const char *, int);
     int Lithology();
     int Property();
     int Caption();
     int drawHole();
     void setDisplayType(int);
-    void setParams();
+    void setHoleParams();
+    void setTextures();
+    void setHole(int);
     bool isSingle();
-    void displayError();
+    int getHoleCount();
+    void displayError(const char*);
 protected:
     void paintGL();
 };
 
-#endif // DRILLHOLE_H
+#endif // DRAWHOLE_H
