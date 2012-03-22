@@ -12,15 +12,15 @@ TEMPLATE = app
 SOURCES += main.cpp \
     GLWidget.cpp \
     imageloader.cpp \
-    drillhole.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    drawhole.cpp \
+    hole.cpp
 HEADERS += GLWidget.h \
     imageloader.h \
     parseCSV.h \
-    drillhole.h \
     params.h \
-    mainwindow.h
+    mainwindow.h \
+    drawhole.h \
+    hole.h
 FORMS += \ 
     mainwindow.ui
-
-

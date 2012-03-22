@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun Feb 12 02:16:05 2012
+** Created: Wed Mar 21 20:28:35 2012
 **      by: Qt User Interface Compiler version 4.7.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -20,8 +20,6 @@
 #include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
 #include <QtGui/QMainWindow>
-#include <QtGui/QMenu>
-#include <QtGui/QMenuBar>
 #include <QtGui/QPushButton>
 #include <QtGui/QStatusBar>
 #include <QtGui/QWidget>
@@ -39,8 +37,8 @@ public:
     QCheckBox *checkBox_2;
     QPushButton *pushButton;
     QPushButton *pushButton_2;
-    QMenuBar *menubar;
-    QMenu *menuBTP;
+    QLabel *label_2;
+    QLineEdit *lineEdit_2;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -54,37 +52,35 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         label = new QLabel(centralwidget);
         label->setObjectName(QString::fromUtf8("label"));
-        label->setGeometry(QRect(20, 10, 71, 21));
+        label->setGeometry(QRect(20, 20, 111, 21));
         lineEdit = new QLineEdit(centralwidget);
         lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
-        lineEdit->setGeometry(QRect(100, 10, 101, 21));
+        lineEdit->setGeometry(QRect(130, 20, 101, 21));
         comboBox = new QComboBox(centralwidget);
         comboBox->setObjectName(QString::fromUtf8("comboBox"));
-        comboBox->setGeometry(QRect(140, 50, 85, 31));
+        comboBox->setGeometry(QRect(130, 90, 85, 31));
         checkBox = new QCheckBox(centralwidget);
         checkBox->setObjectName(QString::fromUtf8("checkBox"));
-        checkBox->setGeometry(QRect(20, 50, 101, 26));
+        checkBox->setGeometry(QRect(20, 90, 101, 26));
         checkBox_2 = new QCheckBox(centralwidget);
         checkBox_2->setObjectName(QString::fromUtf8("checkBox_2"));
-        checkBox_2->setGeometry(QRect(20, 80, 93, 26));
+        checkBox_2->setGeometry(QRect(20, 120, 93, 26));
         pushButton = new QPushButton(centralwidget);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setGeometry(QRect(230, 10, 81, 21));
+        pushButton->setGeometry(QRect(240, 20, 81, 21));
         pushButton_2 = new QPushButton(centralwidget);
         pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        pushButton_2->setGeometry(QRect(230, 90, 95, 31));
+        pushButton_2->setGeometry(QRect(240, 120, 95, 31));
+        label_2 = new QLabel(centralwidget);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+        label_2->setGeometry(QRect(20, 50, 111, 21));
+        lineEdit_2 = new QLineEdit(centralwidget);
+        lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
+        lineEdit_2->setGeometry(QRect(130, 50, 101, 21));
         MainWindow->setCentralWidget(centralwidget);
-        menubar = new QMenuBar(MainWindow);
-        menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 338, 29));
-        menuBTP = new QMenu(menubar);
-        menuBTP->setObjectName(QString::fromUtf8("menuBTP"));
-        MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         MainWindow->setStatusBar(statusbar);
-
-        menubar->addAction(menuBTP->menuAction());
 
         retranslateUi(MainWindow);
         QObject::connect(lineEdit, SIGNAL(returnPressed()), pushButton, SLOT(click()));
@@ -95,7 +91,7 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
-        label->setText(QApplication::translate("MainWindow", "File Name:", 0, QApplication::UnicodeUTF8));
+        label->setText(QApplication::translate("MainWindow", "Holes Data File:", 0, QApplication::UnicodeUTF8));
         lineEdit->setText(QApplication::translate("MainWindow", "hole.csv", 0, QApplication::UnicodeUTF8));
         comboBox->clear();
         comboBox->insertItems(0, QStringList()
@@ -105,7 +101,8 @@ public:
         checkBox_2->setText(QApplication::translate("MainWindow", "All Holes", 0, QApplication::UnicodeUTF8));
         pushButton->setText(QApplication::translate("MainWindow", "Parse", 0, QApplication::UnicodeUTF8));
         pushButton_2->setText(QApplication::translate("MainWindow", "Draw", 0, QApplication::UnicodeUTF8));
-        menuBTP->setTitle(QApplication::translate("MainWindow", "BTP", 0, QApplication::UnicodeUTF8));
+        label_2->setText(QApplication::translate("MainWindow", "Holes Info File:", 0, QApplication::UnicodeUTF8));
+        lineEdit_2->setText(QApplication::translate("MainWindow", "info.csv", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

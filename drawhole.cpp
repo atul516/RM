@@ -3,8 +3,70 @@
 #include"parseCSV.h"
 
 int DrillHole::drawHole(){
+    this->setParams();
+    if(isSingle())
+        this->Caption();
+    else
+        glTranslatef(17.6f, 2.0f, 0.0f);
+    this->Lithology();
+    return 1;
+}
+
+void DrillHole::displayError(){
+
+}
+
+void DrillHole::setParams(){
     this->image = new ImageLoader();
-    for(int i=0;i<6;i++){
+    std::string sep("#");
+    Hole *h = new Hole();
+    if(spcf[0][0].compare(sep.append("format")) != 0)
+        displayError("File format incorrect!!!");
+
+    int i=1;
+    while(spcf[i][0].compare(sep) != 0){
+        property_name[i-1] = spcf[i][0];
+        property_type[i-1] = spcf[i][1];
+        property_unit[i-1] = spcf[i][2];
+        i++;
+    }
+    no_of_properties = i-1;
+    std::vector< std::string > property;
+    no_of_holes = 0;
+    int property_counter = 0;
+    while(i<((int)this->spcf.size())){
+        if(spcf[i][j].compare(sep) == 0){
+            no_of_holes++;
+            property_counter = 0;
+            i++;
+            for(int c=0;c<temp.size();c++){
+                if(c!=0)
+                    h->material_depth.push_back((temp[c] - temp[c-1])/REDUCTION_FACTOR);
+                else
+                    h->material_depth.push_back(temp[c]/REDUCTION_FACTOR);
+            }
+            this->holes.push_back(h);
+            temp = NULL;
+            h = NULL;
+            h = new Hole();
+            continue;
+        }
+        for(int k=0;k<((int)this->spcf[j].size());k++){
+            if(property_counter == 0)
+                temp.push_back(atof(spcf[i][k].c_str()));
+            else if(property_counter == 1)
+                h->material_name.push_back(spcf[i][k]);
+            else
+                property.push_back(spcf[i][k]);
+
+        }
+        if(property_counter > 1)
+            h->other_material_properties.push_back(property);
+        property_counter++;
+        i++;
+    }
+
+    for(int i=0;i<((int)this->spcf[0].size());i++){
         temp[i] = atof(spcf[0][i].c_str());
         name[i] = spcf[1][i];
         if(name[i].compare("water") == 0){
@@ -25,45 +87,13 @@ int DrillHole::drawHole(){
         else{
             this->textureId[i] = this->image->Tex;
         }
-
-        if(spcf[2][i].compare("!") == 0){
-            UCS[i] = 0.0f;
-        }
-        else{
-            UCS[i] = atof(spcf[2][i].c_str());
-            UCS_str[i] = spcf[2][i].c_str();
-        }
-
-        if(spcf[3][i].compare("!") == 0){
-            RQD[i] = 0.0f;
-        }
-        else{
-            RQD[i] = atof(spcf[3][i].c_str());
-            RQD_str[i] = spcf[3][i].c_str();
-        }
     }
-    for(int i=0;i<6;i++){
-        if(i!=0)
-            texture_depth[i] = (temp[i] - temp[i-1])/REDUCTION_FACTOR;
-        else
-            texture_depth[i] = temp[i]/REDUCTION_FACTOR;
-    }
-    if(single == 1)
-        this->Caption();
-   else
-     glTranslatef(17.6f, 2.0f, 0.0f);
-    this->Lithology();
-    return 1;
-}
-
-int DrillHole::Property(){
-
 }
 
 int DrillHole::Caption(){
     glTranslatef(-4.6f, 0.9f, 0.0f);
-    hole_id = QString("Hole 1");
-    renderText(0.0f, 0.0f, DISPLAY_HEIGHT, hole_id,f);
+    //hole_id = QString("Hole 1");
+    //renderText(0.0f, 0.0f, DISPLAY_HEIGHT, hole_id,f);
     glTranslatef(0.0f, -0.4f, 0.0f);
     hole_location = QString("Location : xyz");
     renderText(0.0f, 0.0f, DISPLAY_HEIGHT, hole_location,f);
@@ -140,7 +170,7 @@ int DrillHole::Lithology(){
         glEnd();
         str = QString(name[i].c_str());
         renderText(2.8f, 0.0f, DISPLAY_HEIGHT, str,f);
-        if(single == 1){
+        if(isSingle()){
             glTranslatef(5.1f, 0.0f, 0.0f);
             glBegin(GL_QUADS);
             glVertex3f(0.0f, -0.1f, DISPLAY_HEIGHT);
@@ -193,7 +223,14 @@ void DrillHole::paintGL() {
    GLWidget::m_timer->start(100);
    */
 }
-DrillHole::DrillHole(const char *filenm){
-    //std::cout<<filenm;
-    this->spcf = parseData(filenm);
+DrillHole::DrillHole(const char *holes_file, const char *holes_info_file, int type){
+    this->spcf = parseData(holes_file);
+    this->hole_info = parseData(holes_info_file);
+    this->setDisplayType(type);
+}
+void DrillHole::setDisplayType(int t){
+    this->single = t;
+}
+bool DrillHole::isSingle(){
+    return this->single;
 }

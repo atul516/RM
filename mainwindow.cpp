@@ -30,7 +30,8 @@ void MainWindow::changeEvent(QEvent *e)
 
 void MainWindow::on_pushButton_clicked()
 {
-    this->hole = new DrillHole(ui->lineEdit->text().toStdString().c_str());
+    this->holes_file = ui->lineEdit->text().toStdString();
+    this->holes_info_file = ui->lineEdit_2->text().toStdString();
     ui->checkBox->setCheckable(true);
     ui->checkBox_2->setCheckable(true);
     ui->checkBox_2->setChecked(true);
@@ -38,14 +39,13 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_checkBox_2_stateChanged(int arg1)
 {
-    if(this->hole != NULL){
-
+    if(ui->checkBox->isCheckable()){
         if(ui->checkBox_2->isChecked()){
-            this->hole->single = 0;
+            this->hole = new DrillHole(this->holes_file.c_str(),this->holes_info_file.c_str(),0);
             ui->checkBox->setChecked(false);
         }
         else {
-            this->hole->single = 1;
+            this->hole = new DrillHole(this->holes_file.c_str(),this->holes_info_file.c_str(),1);
             ui->checkBox->setChecked(true);
         }
     }
@@ -62,11 +62,11 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
 {
     if(this->hole != NULL){
         if(ui->checkBox->isChecked()){
-            this->hole->single = 1;
+            this->hole->setDisplayType(1);
             ui->checkBox_2->setChecked(false);
         }
         else {
-            this->hole->single = 0;
+            this->hole->setDisplayType(0);
             ui->checkBox_2->setChecked(true);
         }
     }

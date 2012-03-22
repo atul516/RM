@@ -29,6 +29,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     DrillHole *hole;
+    std::string holes_file;
+    std::string holes_info_file;
 };
 
 #endif // MAINWINDOW_H
