@@ -8,7 +8,7 @@ int DrawHole::drawHole(){
         this->Caption();
     else
         glTranslatef(17.6f, 2.0f, 0.0f);
-    //this->Lithology();
+    this->Lithology();
     return 1;
 }
 
@@ -52,7 +52,6 @@ void DrawHole::setHoleParams(){
             }
             this->holes.push_back(*h);
             temp.clear();
-            property.clear();
             h = NULL;
             h = new Hole();
             continue;
@@ -68,6 +67,7 @@ void DrawHole::setHoleParams(){
         }
         if(property_counter > 1)
             h->other_material_properties.push_back(property);
+        property.clear();
         property_counter++;
         i++;
     }
@@ -83,33 +83,7 @@ void DrawHole::setHoleParams(){
 } // Done extracting hole properties
 
 void DrawHole::setTextures(){
-    /*
-     * Load all available texture bitmaps
-     */
-    this->image = new ImageLoader();
-    std::string name;
-    for(int i=0;i<((int)this->spcf[0].size());i++){
-        name = spcf[1][i];
-        if(name.compare("water") == 0){
-            this->textureId[i] = this->image->Water;
-        }
-        else if(name.compare("sandstone")== 0){
-            this->textureId[i] = this->image->Sandstone;
-        }
-        else if(name.compare("marble")== 0){
-            this->textureId[i] = this->image->Marble;
-        }
-        else if(name.compare("shale")== 0){
-            this->textureId[i] = this->image->Shale;
-        }
-        else if(name.compare("coal")== 0){
-            this->textureId[i] = this->image->Coal;
-        }
-        else{
-            this->textureId[i] = this->image->Tex;
-        }
-        textures.insert ( std::pair<std::string,GLuint>(name,textureId[i]) ); // Insert texture to the texture map
-    }
+    this->imageloader = new ImageLoader();
 } // Done loading textures
 
 int DrawHole::Caption(){
@@ -162,68 +136,78 @@ int DrawHole::Caption(){
     glTranslatef(-(8.0f + (no_of_properties-2)*6.0f), 0.0f, 0.0f);
 
     // Display hole properties' names and units
-    glTranslatef(5.0f, -0.4f, 0.0f);
+    glTranslatef(4.8f, -0.4f, 0.0f);
     label.str(std::string());
     label << "Material Type";
-    renderText(0.0f, 0.0f, DISPLAY_HEIGHT, QString(""),f);
-    glTranslatef(3.0f, 0.0f, 0.0f);
+    renderText(0.0f, 0.0f, DISPLAY_HEIGHT, QString(label.str().c_str()),f);
+    glTranslatef(3.2f, 0.0f, 0.0f);
     for(int i=2;i<no_of_properties;i++){
         label.str(std::string());
         label << property_name[i] << " (in " << property_unit[i] << ")";
         renderText(0.0f, 0.0f, DISPLAY_HEIGHT, QString(label.str().c_str()),f);
         glTranslatef(6.0f, 0.0f, 0.0f);
     }
+    glTranslatef(-7.0f, 3.0f, -1.5f);
     return 1;
 } // Done drawing caption
-/*
+
 int DrawHole::Lithology(){
-    glTranslatef(-17.6f, -2.0f, 0.0f);
+    /*
+     * Draws the hole's lithology using bitmap textures
+     */
+    glTranslatef(-17.6f, -4.5f, 0.0f);
+    if(!isSingle())
+        glTranslatef(-2.0f, 2.0f, 0.0f);
+
     glEnable(GL_TEXTURE_2D);
-    for(int i=0;i<spcf[0].size();i++){
-        if(i!=0){
-            glTranslatef(0.0f, -(texture_depth[i-1]/2)-(texture_depth[i]/2), 0.0f);
-        }
+    // For each hole
+    for(int i=0;i<((isSingle())?1:no_of_holes);i++){
+        // For each material type
+        for(int j=0;j<this->holes[i].material_depth.size();j++){
+            if(j!=0){
+                glTranslatef(0.0f, -((this->holes[i].material_depth[j-1])+(this->holes[i].material_depth[j]))/2, 0.0f);
+            }
 
-        glBindTexture(GL_TEXTURE_2D, textureId[i]);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glBegin(GL_QUADS);
-        // Front Face
-        glTexCoord2f(0.0f, 0.0f);
-        glVertex3f(-DISPLAY_WIDTH, -texture_depth[i]/2, DISPLAY_HEIGHT);
-        glTexCoord2f(1.0f, 0.0f);
-        glVertex3f(DISPLAY_WIDTH, -texture_depth[i]/2, DISPLAY_HEIGHT);
-        glTexCoord2f(1.0f, 1.0f);
-        glVertex3f(DISPLAY_WIDTH, texture_depth[i]/2, DISPLAY_HEIGHT);
-        glTexCoord2f(0.0f, 1.0f);
-        glVertex3f(-DISPLAY_WIDTH, texture_depth[i]/2, DISPLAY_HEIGHT);
-        glEnd();
-        str = QString(name[i].c_str());
-        renderText(2.8f, 0.0f, DISPLAY_HEIGHT, str,f);
-        if(isSingle()){
-            glTranslatef(5.1f, 0.0f, 0.0f);
-            glBegin(GL_QUADS);
-            glVertex3f(0.0f, -0.1f, DISPLAY_HEIGHT);
-            glVertex3f( (UCS[i]/100.0)*5.0f, -0.1f, DISPLAY_HEIGHT);
-            glVertex3f( (UCS[i]/100.0)*5.0f,0.1f, DISPLAY_HEIGHT);
-            glVertex3f(0.0f,0.1f, DISPLAY_HEIGHT);
-            glEnd();
-            renderText((UCS[i]/100.0)*5.0f, 0.0f, DISPLAY_HEIGHT, UCS_str[i].c_str(),f);
+            //Bind appropriate texture
 
-            glTranslatef(6.0f, 0.0f, 0.0f);
+            glBindTexture(GL_TEXTURE_2D, this->imageloader->getTexture(this->holes[i].material_name[j]));
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glBegin(GL_QUADS);
-            glVertex3f(0.0f, -0.1f, DISPLAY_HEIGHT);
-            glVertex3f( (RQD[i]/100.0)*5.0f, -0.1f, DISPLAY_HEIGHT);
-            glVertex3f( (RQD[i]/100.0)*5.0f,0.1f, DISPLAY_HEIGHT);
-            glVertex3f(0.0f,0.1f, DISPLAY_HEIGHT);
+            // Front Face
+            glTexCoord2f(0.0f, 0.0f);
+            glVertex3f(-DISPLAY_WIDTH, -this->holes[i].material_depth[j]/2, DISPLAY_HEIGHT);
+            glTexCoord2f(1.0f, 0.0f);
+            glVertex3f(DISPLAY_WIDTH, -this->holes[i].material_depth[j]/2, DISPLAY_HEIGHT);
+            glTexCoord2f(1.0f, 1.0f);
+            glVertex3f(DISPLAY_WIDTH, this->holes[i].material_depth[j]/2, DISPLAY_HEIGHT);
+            glTexCoord2f(0.0f, 1.0f);
+            glVertex3f(-DISPLAY_WIDTH, this->holes[i].material_depth[j]/2, DISPLAY_HEIGHT);
             glEnd();
-            renderText((RQD[i]/100.0)*5.0f, 0.0f, DISPLAY_HEIGHT, RQD_str[i].c_str(),f);
-            glTranslatef(-11.1f, 0.0f, 0.0f);
+            label.str(std::string());
+            label << this->holes[i].material_name[j].c_str();
+            renderText(2.8f, 0.0f, DISPLAY_HEIGHT, QString(label.str().c_str()),f);
+            if(!isSingle())
+                continue;
+            glTranslatef(5.8f, 0.0f, 0.0f);
+            int k;
+            for(k=0;k<this->holes[this->which_hole].other_material_properties.size();k++){
+                glBegin(GL_QUADS);
+                glVertex3f(0.0f, -0.1f, DISPLAY_HEIGHT);
+                glVertex3f( (atof(this->holes[this->which_hole].other_material_properties[k][j].c_str())/100.0)*5.0f, -0.1f, DISPLAY_HEIGHT);
+                glVertex3f( (atof(this->holes[this->which_hole].other_material_properties[k][j].c_str())/100.0)*5.0f,0.1f, DISPLAY_HEIGHT);
+                glVertex3f(0.0f,0.1f, DISPLAY_HEIGHT);
+                glEnd();
+                renderText((atof(this->holes[this->which_hole].other_material_properties[k][j].c_str())/100.0)*5.0f, 0.0f, DISPLAY_HEIGHT, this->holes[this->which_hole].other_material_properties[k][j].c_str(),f);
+                glTranslatef(6.5f, 0.0f, 0.0f);
+            }
+            glTranslatef(-(5.8f+(k)*6.5f), 0.0f, 0.0f);
         }
+        glTranslatef(5.1f, 9.0f, 0.0f);
     }
     glDisable(GL_TEXTURE_2D);
-}
-*/
+} // Done drawing lithology
+
 void DrawHole::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
@@ -272,7 +256,7 @@ bool DrawHole::isSingle(){
 
 void DrawHole::setHole(int h){
     if(isSingle())
-        which_hole = h;
+        this->which_hole = h;
 }
 
 int DrawHole::getHoleCount(){

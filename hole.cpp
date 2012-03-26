@@ -1,5 +1,8 @@
 #include "hole.h"
 
+Hole::Hole(){
+}
+
 void Hole::setHoleDip(float d){
     this->hole_dip = d;
 }

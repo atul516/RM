@@ -8,6 +8,7 @@ private:
     float hole_dip;
     float hole_length;
 public:
+    Hole();
     void setHoleId(const char*);
     void setHoleDip(float);
     void setHoleLength(float);

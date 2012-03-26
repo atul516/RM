@@ -7,12 +7,11 @@
 #include <map>
 class DrawHole : public GLWidget{
 private:
-    GLuint textureId[7]; //The OpenGL id of the texture
     std::vector< std::vector<std::string> > spcf;
     std::vector< std::vector<std::string> > hole_info;
     std::vector< Hole > holes;
     std::map< std::string, GLuint > textures;
-    ImageLoader *image;
+    ImageLoader *imageloader;
     int which_hole;
     std::stringstream label;
     int single;
