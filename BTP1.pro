@@ -14,13 +14,15 @@ SOURCES += main.cpp \
     imageloader.cpp \
     mainwindow.cpp \
     drawhole.cpp \
-    hole.cpp
+    hole.cpp \
+    surface.cpp
 HEADERS += GLWidget.h \
     imageloader.h \
     parseCSV.h \
     params.h \
     mainwindow.h \
     drawhole.h \
-    hole.h
+    hole.h \
+    surface.h
 FORMS += \ 
     mainwindow.ui

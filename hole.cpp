@@ -26,3 +26,21 @@ void Hole::setHoleLength(float l){
 float Hole::getHoleLength(){
     return this->hole_length;
 }
+
+void Hole::setCoordinates(float a, float b, float c){
+    this->hole_coordinate.x = a;
+    this->hole_coordinate.y = b;
+    this->hole_coordinate.z = c;
+}
+
+float Hole::getX(){
+    return this->hole_coordinate.x;
+}
+
+float Hole::getY(){
+    return this->hole_coordinate.y;
+}
+
+float Hole::getZ(){
+    return this->hole_coordinate.z;
+}

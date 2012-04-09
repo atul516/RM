@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Fri Mar 23 01:23:04 2012
+** Created: Mon Apr 9 17:27:54 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.4)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -36,6 +36,7 @@ static const uint qt_meta_data_MainWindow[] = {
       73,   11,   11,   11, 0x08,
       99,   36,   11,   11, 0x08,
      129,   11,   11,   11, 0x08,
+     146,   11,   11,   11, 0x08,
 
        0        // eod
 };
@@ -45,7 +46,7 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "arg1\0on_checkBox_2_stateChanged(int)\0"
     "on_pushButton_2_clicked()\0"
     "on_checkBox_stateChanged(int)\0"
-    "updateHoles(int)\0"
+    "updateHoles(int)\0on_pushButton_3_clicked()\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -82,9 +83,10 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 2: on_pushButton_2_clicked(); break;
         case 3: on_checkBox_stateChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 4: updateHoles((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 5: on_pushButton_3_clicked(); break;
         default: ;
         }
-        _id -= 5;
+        _id -= 6;
     }
     return _id;
 }

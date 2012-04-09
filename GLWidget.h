@@ -3,7 +3,9 @@
 
 #include <QtOpenGL/QGLWidget>
 #include <QtCore>
+#include <vector>
 #include "params.h"
+
 class GLWidget : public QGLWidget {
     Q_OBJECT
 

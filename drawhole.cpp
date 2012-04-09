@@ -1,6 +1,6 @@
 #include "drawhole.h"
 #include <stdio.h>
-#include"parseCSV.h"
+#include "parseCSV.h"
 
 int DrawHole::drawHole(){
     this->setTextures();
@@ -78,6 +78,7 @@ void DrawHole::setHoleParams(){
         this->holes[i].setHoleId(this->hole_info[i][0].c_str());
         this->holes[i].setHoleLength(atof(this->hole_info[i][1].c_str()));
         this->holes[i].setHoleDip(atof(this->hole_info[i][2].c_str()));
+        this->holes[i].setCoordinates(atof(this->hole_info[i][3].c_str()),atof(this->hole_info[i][4].c_str()),atof(this->hole_info[i][5].c_str()));
         i++;
     }
 } // Done extracting hole properties
