@@ -34,10 +34,10 @@ protected:
     void wheelEvent(QWheelEvent *event);
     void timeout();
     void drawCube();
+    QTimer *m_timer;
 protected slots:
   void timeOutSlot();
 private:
-    QTimer *m_timer;
 };
 
 #endif  /* _GLWIDGET_H */
