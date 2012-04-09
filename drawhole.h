@@ -6,8 +6,8 @@
 
 class DrawHole : public GLWidget{
 private:
-    std::vector< std::vector<std::string> > spcf;
-    std::vector< std::vector<std::string> > hole_info;
+    std::vector< std::vector< std::string > > spcf;
+    std::vector< std::vector< std::string > > hole_info;
     std::vector< Hole > holes;
     std::map< std::string, GLuint > textures;
     ImageLoader *imageloader;

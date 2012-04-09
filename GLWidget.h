@@ -17,19 +17,21 @@ public:
     void updateGL();
 
 protected:
-    float angle;
+    GLfloat angle_x;
+    GLfloat angle_y;
     float depth;
     float left;
     float top;
-    //int dragging;
-    //float drag_x_origin;
-    //float drag_y_origin;
-    //float drag_x_end;
-    //float drag_y_end;
+    bool dragging;
+    float drag_x_origin;
+    float drag_y_origin;
+    float drag_x_end;
+    float drag_y_end;
     void initializeGL();
     void resizeGL(int w, int h);
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
     void wheelEvent(QWheelEvent *event);
     void timeout();

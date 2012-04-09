@@ -26,6 +26,8 @@ private slots:
     void updateHoles(int);
     void on_pushButton_3_clicked();
 
+    void on_pushButton_4_clicked();
+
 private:
     Ui::MainWindow *ui;
     DrawHole *hole;

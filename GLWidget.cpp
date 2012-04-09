@@ -5,21 +5,22 @@
 #include <GLWidget.h>
 //const float BOX_SIZE = 7.0f; //The length of each side of the cube
 
-GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent) {
+GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent){
     GLWidget::m_timer = new QTimer(this);
     QObject::connect(GLWidget::m_timer, SIGNAL(timeout()), this, SLOT(timeOutSlot()),Qt::QueuedConnection);
     setMouseTracking(true);
     setWindowTitle("Borehole");
-    angle = 0;
+    this->angle_x = 0.0;
+    this->angle_y = 0.0;
     depth = -24.0f;
     left = -7.0f;
     top = 6.0f;
 }
 
-void GLWidget::timeOutSlot() {
-    this->angle += 3.0f;
-    if (this->angle > 360) {
-        this->angle -= 360;
+void GLWidget::timeOutSlot(){
+    this->angle_x += 3.0f;
+    if (this->angle_x > 360) {
+        this->angle_x -= 360;
     }
     this->updateGL();
     this->update();
@@ -32,7 +33,7 @@ void GLWidget::updateGL(){
     glDraw();
 }
 
-void GLWidget::initializeGL() {
+void GLWidget::initializeGL(){
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_LIGHTING); //Enable lighting
@@ -51,7 +52,7 @@ void GLWidget::initializeGL() {
     }*/
 }
 
-void GLWidget::resizeGL(int w, int h) {
+void GLWidget::resizeGL(int w, int h){
     glViewport(0, 0, w, h);
     
     glMatrixMode(GL_PROJECTION); //Switch to setting the camera perspective
@@ -182,8 +183,8 @@ void GLWidget::drawCube(){
 void getSpecifications(){
 }
 
-void GLWidget::wheelEvent(QWheelEvent *event){
-    int numDegrees = event->delta() / 8;
+void GLWidget::wheelEvent(QWheelEvent *e){
+    int numDegrees = e->delta() / 8;
     int numSteps = numDegrees / 15;
 
     /*if (event->orientation() == Qt::Horizontal) {
@@ -196,30 +197,45 @@ void GLWidget::wheelEvent(QWheelEvent *event){
     this->top = this->top - numSteps/20.0;
     this->updateGL();
     this->update();
-    event->accept();
+    e->accept();
 }
 
-void GLWidget::mousePressEvent(QMouseEvent *event) {
-    /*if(event->button() == Qt::LeftButton) {
-        dragging = 1;
-        drag_x_origin = (float) event->globalX();
-        drag_y_origin = (float) event->globalY();
+void GLWidget::mouseMoveEvent(QMouseEvent *e){
+    if(e->buttons() & Qt::LeftButton)
+    {
+        if(dragging == true){
+            this->angle_x += (e->pos().x() - drag_x_origin)/150.0f;
+            this->angle_y += (e->pos().y() - drag_y_origin)/150.0f;
+            updateGL();
+        }
+        e->accept();
+    } else {
+        e->ignore();
     }
-    else
-        dragging = 0;*/
-}
-void GLWidget::mouseMoveEvent(QMouseEvent *event) {
-    /*if(dragging == 1){
-        drag_x_end = (float) event->globalX();
-        drag_y_end = (float) event->globalY();
-        this->left += drag_x_origin - drag_x_end;
-        this->top += drag_y_origin - drag_y_end;
-        this->updateGL();
-        this->update();
-    }*/
 }
 
-void GLWidget::keyPressEvent(QKeyEvent* event) {
+void GLWidget::mousePressEvent(QMouseEvent *e){
+    if(e->buttons() & Qt::LeftButton){
+        dragging = true;
+        drag_x_origin = e->pos().x();
+        drag_y_origin = e->pos().y();
+        e->accept();
+    }
+    else{
+        dragging = false;
+        e->ignore();
+    }
+}
+
+void GLWidget::mouseReleaseEvent(QMouseEvent *e){
+    if(e->buttons() & Qt::LeftButton)
+    {
+        dragging = false;
+        e->accept();
+    }
+}
+
+void GLWidget::keyPressEvent(QKeyEvent* event){
     switch(event->key()) {
     case Qt::Key_Escape:
         close();

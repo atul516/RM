@@ -70,8 +70,6 @@ void Surface::computeNodes(){
         this->nodes.push_back(temp);
         temp.clear();
     }
-
-    std::cout << "\n\n\n\n\n\n";
 }
 
 float Surface::computeZ(float x, float y){
@@ -99,21 +97,20 @@ void Surface::paintGL(){
     GLfloat lightPos[] = {-2 * BOX_SIZE, BOX_SIZE, 4 * BOX_SIZE, 1.0f};
     glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor);
     glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-    glTranslatef(0.0f, -7.0f, this->depth - 15.0f);
-    glRotatef(this->angle,1.0f,0.0f,0.0f);                     // Rotate On The X Axis
-    glRotatef(this->angle,0.0f,1.0f,0.0f);                     // Rotate On The Y Axis
+    glTranslatef(-15.0f, -5.0f, this->depth - 30.0f);
+    glRotatef(this->angle_y,1.0f,0.0f,0.0f);                     // Rotate On The X Axis
+    glRotatef(this->angle_x,0.0f,1.0f,0.0f);                     // Rotate On The Y Axis
     //glRotatef(this->angle,0.0f,0.0f,1.0f);                     // Rotate On The Z Axis
     //glScalef(2.0f, 2.0f, 2.0f); //Scale by 0.7 in the x, y, and z directions
-    swapBuffers();
-    GLWidget::m_timer->start(100);
+    //swapBuffers();
+    //GLWidget::m_timer->start(100);
     this->drawSurface();
 }
 
 void Surface::drawSurface(){
     for(int i=0;i<this->division_factor;i++){
         for(int j=0;j<this->division_factor;j++){
-            std::cout << this->nodes[i][j].x << " " << this->nodes[i][j].y << " " << this->nodes[i][j].z << "\n";
-            glBegin(GL_QUAD_STRIP);
+            glBegin(GL_LINE_STRIP);
             //glTexCoord2f(0.0f, 0.0f);
             glVertex3f(this->nodes[i][j].x,this->nodes[i][j].y,this->nodes[i][j].z);
             //glTexCoord2f(1.0f, 0.0f);
@@ -129,8 +126,6 @@ void Surface::drawSurface(){
 
 Surface::Surface(std::vector< coordinates > c){
     this->holes_coordinates = c;
-    this->setDivisionFactor(5);
     this->setX();
     this->setY();
-    this->computeNodes();
 }

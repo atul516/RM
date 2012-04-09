@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Mon Apr 9 19:00:14 2012
+** Created: Tue Apr 10 04:24:36 2012
 **      by: Qt User Interface Compiler version 4.7.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -46,20 +46,22 @@ public:
     QLabel *label_4;
     QPushButton *pushButton_3;
     QPushButton *pushButton_4;
+    QLineEdit *lineEdit_3;
+    QLabel *label_5;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(338, 280);
+        MainWindow->resize(338, 290);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
-        MainWindow->setMinimumSize(QSize(338, 280));
-        MainWindow->setMaximumSize(QSize(338, 280));
+        MainWindow->setMinimumSize(QSize(338, 290));
+        MainWindow->setMaximumSize(QSize(338, 290));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         label = new QLabel(centralwidget);
@@ -82,7 +84,7 @@ public:
         pushButton->setGeometry(QRect(240, 50, 81, 21));
         pushButton_2 = new QPushButton(centralwidget);
         pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        pushButton_2->setGeometry(QRect(230, 140, 95, 31));
+        pushButton_2->setGeometry(QRect(244, 140, 81, 31));
         label_2 = new QLabel(centralwidget);
         label_2->setObjectName(QString::fromUtf8("label_2"));
         label_2->setGeometry(QRect(20, 80, 111, 21));
@@ -94,23 +96,29 @@ public:
         label_3->setGeometry(QRect(10, 10, 91, 21));
         line = new QFrame(centralwidget);
         line->setObjectName(QString::fromUtf8("line"));
-        line->setGeometry(QRect(10, 15, 321, 31));
+        line->setGeometry(QRect(10, 25, 321, 21));
         line->setFrameShape(QFrame::HLine);
         line->setFrameShadow(QFrame::Sunken);
         line_2 = new QFrame(centralwidget);
         line_2->setObjectName(QString::fromUtf8("line_2"));
-        line_2->setGeometry(QRect(10, 175, 321, 31));
+        line_2->setGeometry(QRect(10, 190, 321, 31));
         line_2->setFrameShape(QFrame::HLine);
         line_2->setFrameShadow(QFrame::Sunken);
         label_4 = new QLabel(centralwidget);
         label_4->setObjectName(QString::fromUtf8("label_4"));
-        label_4->setGeometry(QRect(10, 170, 111, 21));
+        label_4->setGeometry(QRect(10, 180, 111, 21));
         pushButton_3 = new QPushButton(centralwidget);
         pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
-        pushButton_3->setGeometry(QRect(40, 200, 111, 31));
+        pushButton_3->setGeometry(QRect(150, 220, 91, 31));
         pushButton_4 = new QPushButton(centralwidget);
         pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
-        pushButton_4->setGeometry(QRect(180, 200, 95, 31));
+        pushButton_4->setGeometry(QRect(250, 220, 71, 31));
+        lineEdit_3 = new QLineEdit(centralwidget);
+        lineEdit_3->setObjectName(QString::fromUtf8("lineEdit_3"));
+        lineEdit_3->setGeometry(QRect(80, 220, 51, 21));
+        label_5 = new QLabel(centralwidget);
+        label_5->setObjectName(QString::fromUtf8("label_5"));
+        label_5->setGeometry(QRect(10, 220, 61, 20));
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -137,6 +145,8 @@ public:
         label_4->setText(QApplication::translate("MainWindow", "Display Surface:-", 0, QApplication::UnicodeUTF8));
         pushButton_3->setText(QApplication::translate("MainWindow", "Compute ", 0, QApplication::UnicodeUTF8));
         pushButton_4->setText(QApplication::translate("MainWindow", "Draw", 0, QApplication::UnicodeUTF8));
+        lineEdit_3->setText(QApplication::translate("MainWindow", "20", 0, QApplication::UnicodeUTF8));
+        label_5->setText(QApplication::translate("MainWindow", "Precision:", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

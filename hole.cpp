@@ -1,6 +1,8 @@
 #include "hole.h"
+#include <iostream>
 
 Hole::Hole(){
+    this->hole_id = "";
 }
 
 void Hole::setHoleDip(float d){
@@ -11,8 +13,8 @@ float Hole::getHoleDip(){
     return this->hole_dip;
 }
 
-void Hole::setHoleId(const char* i){
-    this->hole_id = i;
+void Hole::setHoleId(const char* str){
+    //this->hole_id.assign(str);
 }
 
 std::string Hole::getHoleId(){
@@ -43,4 +45,6 @@ float Hole::getY(){
 
 float Hole::getZ(){
     return this->hole_coordinate.z;
+}
+Hole::~Hole(){
 }

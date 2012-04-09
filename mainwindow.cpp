@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->checkBox_2->setCheckable(false);
     ui->comboBox->setDisabled(true);
     this->hole = NULL;
+    this->surface = NULL;
 }
 
 MainWindow::~MainWindow(){
@@ -90,8 +91,17 @@ void MainWindow::updateHoles(int h){
 }
 
 void MainWindow::on_pushButton_3_clicked(){
+    this->ui->pushButton_3->setText(QString("Computing"));
     if(this->hole == NULL)
         return;
     this->surface = new Surface(this->hole->getHoleCoordinates());
+    this->surface->setDivisionFactor(atoi(this->ui->lineEdit_3->text().toStdString().c_str()));
+    this->surface->computeNodes();
+    this->ui->pushButton_3->setText(QString("Compute"));
+}
+
+void MainWindow::on_pushButton_4_clicked(){
+    if(this->surface == NULL)
+        return;
     this->surface->show();
 }

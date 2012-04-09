@@ -13,6 +13,7 @@ private:
     coordinates hole_coordinate;
 public:
     Hole();
+    ~Hole();
     void setHoleId(const char*);
     void setHoleDip(float);
     void setHoleLength(float);
