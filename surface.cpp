@@ -54,3 +54,11 @@ void Surface::computeNodes(){
 void Surface::computeZ(int k){
 
 }
+
+void Surface::paintGL(){
+
+}
+
+Surface::Surface(std::vector< coordinates > c){
+    this->holes_coordinates = c;
+}

@@ -2,7 +2,7 @@
 #include <QTimer>
 #include <QObject>
 #include <QImage>
-#include "drillhole.h"
+#include <GLWidget.h>
 //const float BOX_SIZE = 7.0f; //The length of each side of the cube
 
 GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent) {

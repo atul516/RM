@@ -2,7 +2,12 @@
 #ifndef IMAGE_LOADER_H_INCLUDED
 #define IMAGE_LOADER_H_INCLUDED
 
-#include "GLWidget.h"
+#include <map>
+#include <QtOpenGL/QGLWidget>
+#include <QtCore>
+#include <vector>
+#include "params.h"
+
 //Represents an image
 class Image {
 public:

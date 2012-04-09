@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include<iostream>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow){
@@ -91,4 +92,5 @@ void MainWindow::updateHoles(int h){
 void MainWindow::on_pushButton_3_clicked(){
     if(this->hole == NULL)
         return;
+    this->surface = new Surface(this->hole->getHoleCoordinates());
 }

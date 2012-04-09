@@ -1,10 +1,13 @@
 #ifndef _GLWIDGET_H
 #define _GLWIDGET_H
 
-#include <QtOpenGL/QGLWidget>
-#include <QtCore>
-#include <vector>
-#include "params.h"
+#include "imageloader.h"
+
+struct coordinates{
+    float x;
+    float y;
+    float z;
+};
 
 class GLWidget : public QGLWidget {
     Q_OBJECT

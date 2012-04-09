@@ -1,5 +1,4 @@
 #include "drawhole.h"
-#include <stdio.h>
 #include "parseCSV.h"
 
 int DrawHole::drawHole(){
@@ -262,4 +261,16 @@ void DrawHole::setHole(int h){
 
 int DrawHole::getHoleCount(){
     return no_of_holes;
+}
+
+std::vector< coordinates > DrawHole::getHoleCoordinates(){
+    std::vector< coordinates > c;
+    coordinates temp;
+    for(int i=0;i<this->holes.size();i++){
+        temp.x = this->holes[i].getX();
+        temp.y = this->holes[i].getY();
+        temp.z = this->holes[i].getZ();
+        c.push_back(temp);
+    }
+    return c;
 }

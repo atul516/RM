@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "surface.h"
 #include "drawhole.h"
 
 namespace Ui {
@@ -28,6 +29,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     DrawHole *hole;
+    Surface *surface;
     std::string holes_file;
     std::string holes_info_file;
 };

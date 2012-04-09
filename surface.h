@@ -3,21 +3,17 @@
 
 #include "GLWidget.h"
 
-struct coordinates{
-    float x;
-    float y;
-    float z;
-};
-
-class Surface {
+class Surface : public GLWidget{
 private:
     float rightX;
     float topY;
     float bottomY;
     float leftX;
     float meshSize;
+    std::vector< coordinates > holes_coordinates;
     coordinates nodes[];
 public:
+    Surface(std::vector< coordinates >);
     void setX(float,float);
     void setY(float,float);
     void setMeshSize(float);
@@ -28,6 +24,8 @@ public:
     float getMeshSize();
     void computeNodes();
     void computeZ(int);
+protected:
+    void paintGL();
 };
 
 #endif // SURFACE_H

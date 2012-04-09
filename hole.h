@@ -3,12 +3,7 @@
 
 #include <string>
 #include <vector>
-
-struct coordinates{
-    float x;
-    float y;
-    float z;
-};
+#include "GLWidget.h"
 
 class Hole{
 private:

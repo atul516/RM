@@ -2,9 +2,8 @@
 #define DRAWHOLE_H
 
 #include <sstream>
-#include "imageloader.h"
 #include "hole.h"
-#include <map>
+
 class DrawHole : public GLWidget{
 private:
     std::vector< std::vector<std::string> > spcf;
@@ -28,6 +27,7 @@ public:
     int Property();
     int Caption();
     int drawHole();
+    std::vector< coordinates > getHoleCoordinates();
     void setDisplayType(int);
     void setHoleParams();
     void setTextures();
