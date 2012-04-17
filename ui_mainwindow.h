@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue Apr 10 04:24:36 2012
+** Created: Tue Apr 17 17:41:13 2012
 **      by: Qt User Interface Compiler version 4.7.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -48,20 +48,22 @@ public:
     QPushButton *pushButton_4;
     QLineEdit *lineEdit_3;
     QLabel *label_5;
+    QLabel *label_6;
+    QComboBox *comboBox_2;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(338, 290);
+        MainWindow->resize(338, 330);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
-        MainWindow->setMinimumSize(QSize(338, 290));
-        MainWindow->setMaximumSize(QSize(338, 290));
+        MainWindow->setMinimumSize(QSize(338, 330));
+        MainWindow->setMaximumSize(QSize(338, 330));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         label = new QLabel(centralwidget);
@@ -109,16 +111,22 @@ public:
         label_4->setGeometry(QRect(10, 180, 111, 21));
         pushButton_3 = new QPushButton(centralwidget);
         pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
-        pushButton_3->setGeometry(QRect(150, 220, 91, 31));
+        pushButton_3->setGeometry(QRect(240, 220, 91, 31));
         pushButton_4 = new QPushButton(centralwidget);
         pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
-        pushButton_4->setGeometry(QRect(250, 220, 71, 31));
+        pushButton_4->setGeometry(QRect(250, 260, 71, 31));
         lineEdit_3 = new QLineEdit(centralwidget);
         lineEdit_3->setObjectName(QString::fromUtf8("lineEdit_3"));
         lineEdit_3->setGeometry(QRect(80, 220, 51, 21));
         label_5 = new QLabel(centralwidget);
         label_5->setObjectName(QString::fromUtf8("label_5"));
         label_5->setGeometry(QRect(10, 220, 61, 20));
+        label_6 = new QLabel(centralwidget);
+        label_6->setObjectName(QString::fromUtf8("label_6"));
+        label_6->setGeometry(QRect(10, 250, 91, 21));
+        comboBox_2 = new QComboBox(centralwidget);
+        comboBox_2->setObjectName(QString::fromUtf8("comboBox_2"));
+        comboBox_2->setGeometry(QRect(104, 250, 81, 31));
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -145,8 +153,14 @@ public:
         label_4->setText(QApplication::translate("MainWindow", "Display Surface:-", 0, QApplication::UnicodeUTF8));
         pushButton_3->setText(QApplication::translate("MainWindow", "Compute ", 0, QApplication::UnicodeUTF8));
         pushButton_4->setText(QApplication::translate("MainWindow", "Draw", 0, QApplication::UnicodeUTF8));
-        lineEdit_3->setText(QApplication::translate("MainWindow", "20", 0, QApplication::UnicodeUTF8));
+        lineEdit_3->setText(QApplication::translate("MainWindow", "50", 0, QApplication::UnicodeUTF8));
         label_5->setText(QApplication::translate("MainWindow", "Precision:", 0, QApplication::UnicodeUTF8));
+        label_6->setText(QApplication::translate("MainWindow", "Surface Type:", 0, QApplication::UnicodeUTF8));
+        comboBox_2->clear();
+        comboBox_2->insertItems(0, QStringList()
+         << QApplication::translate("MainWindow", "MESH", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "SOLID", 0, QApplication::UnicodeUTF8)
+        );
     } // retranslateUi
 
 };

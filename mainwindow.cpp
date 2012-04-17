@@ -91,10 +91,10 @@ void MainWindow::updateHoles(int h){
 }
 
 void MainWindow::on_pushButton_3_clicked(){
-    this->ui->pushButton_3->setText(QString("Computing"));
     if(this->hole == NULL)
         return;
-    this->surface = new Surface(this->hole->getHoleCoordinates());
+    this->ui->pushButton_3->setText(QString("Computing"));
+    this->surface = new Surface(this->hole->getHoleCoordinates(),ui->comboBox_2->currentIndex());
     this->surface->setDivisionFactor(atoi(this->ui->lineEdit_3->text().toStdString().c_str()));
     this->surface->computeNodes();
     this->ui->pushButton_3->setText(QString("Compute"));

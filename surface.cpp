@@ -30,6 +30,10 @@ void Surface::setDivisionFactor(int a){
     this->division_factor = a;
 }
 
+void Surface::setSurfaceType(int s){
+    this->surface_type = s;
+}
+
 float Surface::getRightX(){
     return this->rightX;
 }
@@ -48,6 +52,10 @@ float Surface::getLeftX(){
 
 int Surface::getDivisionFactor(){
     return this->division_factor;
+}
+
+int Surface::getSurfaceType(){
+    return this->surface_type;
 }
 
 void Surface::computeNodes(){
@@ -87,12 +95,9 @@ float Surface::computeZ(float x, float y){
 void Surface::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
-    //glRotatef(_angle,0.0f,1.0f,0.0f);                     // Rotate On The Y Axis
-    // glScalef(2.0f, 2.0f, 2.0f); //Scale by 0.7 in the x, y, and z directions
     glLoadIdentity();
     GLfloat ambientLight[] = {0.3f, 0.3f, 0.3f, 1.0f};
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientLight);
-
     GLfloat lightColor[] = {DISPLAY_WIDTH, DISPLAY_WIDTH, DISPLAY_WIDTH, 1.0f};
     GLfloat lightPos[] = {-2 * BOX_SIZE, BOX_SIZE, 4 * BOX_SIZE, 1.0f};
     glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor);
@@ -110,7 +115,10 @@ void Surface::paintGL(){
 void Surface::drawSurface(){
     for(int i=0;i<this->division_factor;i++){
         for(int j=0;j<this->division_factor;j++){
-            glBegin(GL_LINE_STRIP);
+            if(this->getSurfaceType() == 0)
+                glBegin(GL_LINE_STRIP);
+            else
+                glBegin(GL_QUAD_STRIP);
             //glTexCoord2f(0.0f, 0.0f);
             glVertex3f(this->nodes[i][j].x,this->nodes[i][j].y,this->nodes[i][j].z);
             //glTexCoord2f(1.0f, 0.0f);
@@ -124,8 +132,9 @@ void Surface::drawSurface(){
     }
 }
 
-Surface::Surface(std::vector< coordinates > c){
+Surface::Surface(std::vector< coordinates > c, int s){
     this->holes_coordinates = c;
     this->setX();
     this->setY();
+    this->setSurfaceType(s);
 }
