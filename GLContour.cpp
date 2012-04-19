@@ -37,7 +37,7 @@ CGLContour::CGLContour(std::vector< coordinates > holes)
     //vPlanes.resize(np);
     for (int i=0;i<np;i++)
     {
-            vPlanes[i]=(i-(double)np/2.0) / ((double)np/2.0) *2.0;
+        vPlanes[i]=(i-(double)np/2.0) / ((double)np/2.0) *2.0;
     }
     this->SetPlanes(vPlanes);
     this->setX();
