@@ -13,29 +13,35 @@
 #include "GLWidget.h"
 class CGLContour : public CContour,GLWidget
 {
+private:
+    double rightX;
+    double topY;
+    double bottomY;
+    double leftX;
 public:
-	CGLContour();
-	virtual ~CGLContour();
-
-	// Drawing segment using OpenGL
-	// See CContour::ExportLine for further details
-	virtual inline void ExportLine(int iPlane,int x1, int y1, int x2, int y2);
+    CGLContour(std::vector< coordinates >);
+    virtual ~CGLContour();
+    // Drawing segment using OpenGL
+    // See CContour::ExportLine for further details
+    virtual inline void ExportLine(int iPlane,int x1, int y1, int x2, int y2);
+    void setX();
+    void setY();
 protected:
-        void paintGL();
+    void paintGL();
 };
 
 inline void CGLContour::ExportLine(int iPlane,int x1, int y1, int x2, int y2)
 {
-	glColor3f(iPlane/(float)GetNPlanes(),0,1.f-iPlane/(float)GetNPlanes());
-	glBegin(GL_LINES);
-		glVertex2f((GLfloat)(m_pLimits[0]+x1*m_dDx),(GLfloat)(m_pLimits[2]+y1*m_dDy));
-		glVertex2f((GLfloat)(m_pLimits[0]+x2*m_dDx),(GLfloat)(m_pLimits[2]+y2*m_dDy));
-	glEnd();
-	glColor3f(0,0,0);
-	glBegin(GL_POINTS);
-		glVertex2f((GLfloat)(m_pLimits[0]+x1*m_dDx),(GLfloat)(m_pLimits[2]+y1*m_dDy));
-		glVertex2f((GLfloat)(m_pLimits[0]+x2*m_dDx),(GLfloat)(m_pLimits[2]+y2*m_dDy));
-	glEnd();
+    glColor3f(iPlane/(float)GetNPlanes(),0,1.f-iPlane/(float)GetNPlanes());
+    glBegin(GL_LINES);
+    glVertex2f((GLfloat)(m_pLimits[0]+x1*m_dDx),(GLfloat)(m_pLimits[2]+y1*m_dDy));
+    glVertex2f((GLfloat)(m_pLimits[0]+x2*m_dDx),(GLfloat)(m_pLimits[2]+y2*m_dDy));
+    glEnd();
+    glColor3f(0,0,0);
+    glBegin(GL_POINTS);
+    glVertex2f((GLfloat)(m_pLimits[0]+x1*m_dDx),(GLfloat)(m_pLimits[2]+y1*m_dDy));
+    glVertex2f((GLfloat)(m_pLimits[0]+x2*m_dDx),(GLfloat)(m_pLimits[2]+y2*m_dDy));
+    glEnd();
 }
 
 #endif // !defined(AFX_GLCONTOUR_H__8E92F5AF_D733_47BA_9E52_F27D16391E2B__INCLUDED_)

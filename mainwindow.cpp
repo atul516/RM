@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox->setDisabled(true);
     this->hole = NULL;
     this->surface = NULL;
+    this->contour = NULL;
 }
 
 MainWindow::~MainWindow(){
@@ -103,4 +104,16 @@ void MainWindow::on_pushButton_4_clicked(){
     if(this->surface == NULL)
         return;
     this->surface->show();
+}
+
+void MainWindow::on_pushButton_5_clicked(){
+    if(this->hole == NULL)
+        return;
+    this->contour = new CGLContour(this->hole->getHoleCoordinates());
+}
+
+void MainWindow::on_pushButton_6_clicked(){
+    if(this->contour == NULL)
+        return;
+    this->contour->Generate();
 }

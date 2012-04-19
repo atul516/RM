@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "surface.h"
 #include "drawhole.h"
+#include "GLContour.h"
 
 namespace Ui {
     class MainWindow;
@@ -28,9 +29,14 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_pushButton_5_clicked();
+
+    void on_pushButton_6_clicked();
+
 private:
     Ui::MainWindow *ui;
     DrawHole *hole;
+    CGLContour *contour;
     Surface *surface;
     std::string holes_file;
     std::string holes_info_file;

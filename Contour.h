@@ -51,12 +51,12 @@ class CContour
 {
 public:
 	CContour();
-	virtual ~CContour();
+        virtual ~CContour();
 
 	// Initialize memory. Called in Generate
-	virtual void InitMemory();
+        virtual void InitMemory();
 	// Clean work arrays
-	virtual void CleanMemory();
+        virtual void CleanMemory();
 	// Generates contour
 	// Before calling this functions you must
 	//	1. derive the function ExportLine that is 
@@ -64,7 +64,7 @@ public:
 	//	2. Set the function draw contour of. (using  SetFieldFn
 	//		The function must be declared as follows
 	//		double (*myF)(double x , double y);
-	virtual void Generate();
+        void Generate();
 
 	// Set the dimension of the primary grid
 	void SetFirstGrid(int iCol, int iRow);
@@ -96,7 +96,7 @@ protected:
 	// Accesibles variables
 	std::vector<double> m_vPlanes;			// value of contour planes
 	double m_pLimits[4];						// left, right, bottom, top
-	int m_iColFir;								// primary	grid, number of columns
+        int m_iColFir;								// primary	grid, number of column
 	int m_iRowFir;								// primary	grid, number of rows
 	int m_iColSec;								// secondary grid, number of columns
 	int m_iRowSec;								// secondary grid, number of rows

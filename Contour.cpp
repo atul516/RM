@@ -6,7 +6,7 @@
 #include "stdlib.h"
 #include "math.h"
 #include "Contour.h"
-
+#include <iostream>
 #ifdef _DEBUG
 #undef THIS_FILE
 static char THIS_FILE[]=__FILE__;
@@ -22,32 +22,19 @@ double TestFunction(double x,double y)
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CContour::CContour()
-{
+CContour::CContour(){
 	m_iColFir=m_iRowFir=32;
 	m_iColSec=m_iRowSec=256;
 	m_dDx=m_dDy=0;
-	m_pFieldFcn=NULL;
-	m_pLimits[0]=m_pLimits[2]=0;
-	m_pLimits[1]=m_pLimits[3]=5.;
+        m_pFieldFcn=NULL;
 	m_ppFnData=NULL;
-
-	// temporary stuff
-	m_pFieldFcn=TestFunction;
-	m_vPlanes.resize(20);
-        for (GLuint i=0;i<m_vPlanes.size();i++)
-	{
-		m_vPlanes[i]=(i-m_vPlanes.size()/2.0)*0.1;
-	}
 }
 
-CContour::~CContour()
-{
+CContour::~CContour(){
 	CleanMemory();
 }
 
-void CContour::InitMemory()
-{
+void CContour::InitMemory(){
 	if (!m_ppFnData)
 	{
 		m_ppFnData=new CFnStr*[m_iColSec+1];
@@ -58,9 +45,8 @@ void CContour::InitMemory()
 	}
 }
 
-void CContour::CleanMemory()
-{
-	if (m_ppFnData)
+void CContour::CleanMemory(){
+        if (m_ppFnData)
 	{
 		int i;
 		for (i=0;i<m_iColSec+1;i++)
@@ -73,9 +59,7 @@ void CContour::CleanMemory()
 	}
 }
 
-void CContour::Generate()
-{
-
+void CContour::Generate(){
 	int i, j;
 	int x3, x4, y3, y4, x, y, oldx3, xlow;
 	const int cols=m_iColSec+1;
@@ -165,8 +149,7 @@ void CContour::Generate()
 	}
 }
 
-void CContour::Cntr1(int x1, int x2, int y1, int y2)
-{
+void CContour::Cntr1(int x1, int x2, int y1, int y2){
 	double f11, f12, f21, f22, f33;
 	int x3, y3, i, j;
 	
@@ -200,8 +183,8 @@ void CContour::Cntr1(int x1, int x2, int y1, int y2)
 	FnctData(x2,y1)->m_sLeftLen = FnctData(x1,y1)->m_sRightLen = y2-y1;
 }
 
-void CContour::Pass2(int x1, int x2, int y1, int y2)
-{
+void CContour::Pass2(int x1, int x2, int y1, int y2){
+    std::cout << m_pLimits[0] << m_pLimits[1] << m_pLimits[2] << m_pLimits[3];
 	int left, right, top, bot,old, iNew, i, j, x3, y3;
 	double yy0, yy1, xx0, xx1, xx3, yy3;
 	double v, f11, f12, f21, f22, f33, fold, fnew, f;
@@ -385,8 +368,7 @@ void CContour::Pass2(int x1, int x2, int y1, int y2)
 	}
 }
 
-double CContour::Field(int x, int y)	 /* evaluate funct if we must,	*/
-{
+double CContour::Field(int x, int y){	 /* evaluate funct if we must,	*/
 	double x1, y1;
 	
 	if (FnctData(x,y)->m_sTopLen != -1)  /* is it already in the array */
@@ -402,27 +384,23 @@ double CContour::Field(int x, int y)	 /* evaluate funct if we must,	*/
 	return (FnctData(x,y)->m_dFnVal = (*m_pFieldFcn)(x1, y1));
 }
 
-void CContour::SetPlanes(const std::vector<double>& vPlanes)
-{	
+void CContour::SetPlanes(const std::vector<double>& vPlanes){	
 	// cleaning memory
 	CleanMemory();
 
 	m_vPlanes = vPlanes;
 }
 
-void CContour::SetFieldFcn(double (*_pFieldFcn)(double, double)) 
-{	
+void CContour::SetFieldFcn(double (*_pFieldFcn)(double, double)){
 	m_pFieldFcn=_pFieldFcn;
 }
 
-void CContour::SetFirstGrid(int iCol, int iRow)
-{
+void CContour::SetFirstGrid(int iCol, int iRow){
         m_iColFir=std::max(iCol,2);
         m_iRowFir=std::max(iRow,2);
 }
 
-void CContour::SetSecondaryGrid(int iCol, int iRow)
-{
+void CContour::SetSecondaryGrid(int iCol, int iRow){
 	// cleaning work matrices if allocated
 	CleanMemory();
 
@@ -430,8 +408,7 @@ void CContour::SetSecondaryGrid(int iCol, int iRow)
         m_iRowSec=std::max(iRow,2);
 }
 
-void CContour::SetLimits(double pLimits[])
-{
+void CContour::SetLimits(double pLimits[]){
         assert(pLimits[0]<pLimits[1]);
         assert(pLimits[2]<pLimits[3]);
 	for (int i=0;i<4;i++)
@@ -440,8 +417,7 @@ void CContour::SetLimits(double pLimits[])
 	}	
 }
 
-void CContour::GetLimits(double pLimits[])
-{
+void CContour::GetLimits(double pLimits[]){
 	for (int i=0;i<4;i++)
 	{
 		pLimits[i]=m_pLimits[i];
