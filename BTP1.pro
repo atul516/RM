@@ -15,7 +15,9 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     drawhole.cpp \
     hole.cpp \
-    surface.cpp
+    surface.cpp \
+    GLContour.cpp \
+    Contour.cpp
 HEADERS += GLWidget.h \
     imageloader.h \
     parseCSV.h \
@@ -23,6 +25,8 @@ HEADERS += GLWidget.h \
     mainwindow.h \
     drawhole.h \
     hole.h \
-    surface.h
+    surface.h \
+    GLContour.h \
+    Contour.h
 FORMS += \ 
     mainwindow.ui

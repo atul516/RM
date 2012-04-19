@@ -51,7 +51,6 @@ void MainWindow::on_checkBox_2_stateChanged(int arg1){
         ui->checkBox->setChecked(true);
         ui->comboBox->setDisabled(false);
     }
-
 }
 
 void MainWindow::on_pushButton_2_clicked(){
