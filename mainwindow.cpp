@@ -115,5 +115,5 @@ void MainWindow::on_pushButton_5_clicked(){
 void MainWindow::on_pushButton_6_clicked(){
     if(this->contour == NULL)
         return;
-    this->contour->Generate();
+    this->contour->show();
 }

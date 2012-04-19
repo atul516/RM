@@ -36,7 +36,7 @@
 #endif // _MSC_VER > 1000
 #include <vector>
 #include <assert.h>
-#include <QtOpenGL/QGLWidget>
+#include "GLWidget.h"
 
 // A structure used internally by CContour
 struct CFnStr {
@@ -46,9 +46,7 @@ struct CFnStr {
     short m_sTopLen;
     short m_sBotLen;
 };
-
-class CContour  
-{
+class CContour{
 public:
     CContour();
     virtual ~CContour();

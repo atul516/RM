@@ -2,14 +2,14 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-//#include "stdafx.h"
-#include "GLContour.h"
-
 #ifdef _DEBUG
 #undef THIS_FILE
 static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
+
+#include "GLContour.h"
+
 std::vector< coordinates > holes_coordinates;
 
 double computeZ(double x, double y){
@@ -32,9 +32,9 @@ CGLContour::CGLContour(std::vector< coordinates > holes)
     : CContour(){
     holes_coordinates = holes;
     this->SetFieldFcn(computeZ);
-    std::vector< double > vPlanes(20);
-    int np=20;
-    //vPlanes.resize(np);
+    std::vector< double > vPlanes;
+    int np=100;
+    vPlanes.resize(np);
     for (int i=0;i<np;i++)
     {
         vPlanes[i]=(i-(double)np/2.0) / ((double)np/2.0) *2.0;
@@ -51,10 +51,6 @@ CGLContour::CGLContour(std::vector< coordinates > holes)
 }
 
 CGLContour::~CGLContour(){
-
-}
-
-void CGLContour::paintGL(){
 
 }
 
@@ -82,4 +78,18 @@ void CGLContour::setY(){
     }
     this->bottomY = min;
     this->topY = max;
+}
+
+void CGLContour::paintGL(){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    GLfloat ambientLight[] = {0.3f, 0.3f, 0.3f, 1.0f};
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientLight);
+    GLfloat lightColor[] = {DISPLAY_WIDTH, DISPLAY_WIDTH, DISPLAY_WIDTH, 1.0f};
+    GLfloat lightPos[] = {-2 * BOX_SIZE, BOX_SIZE, 4 * BOX_SIZE, 1.0f};
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor);
+    glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+    glTranslatef(-15.0f, -5.0f, this->depth - 10.0f);
+    this->Generate();
 }

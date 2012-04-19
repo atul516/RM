@@ -9,10 +9,10 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include <iostream>
 #include "Contour.h"
-#include "GLWidget.h"
-class CGLContour : public CContour,GLWidget
-{
+
+class CGLContour : public CContour, public GLWidget{
 private:
     double rightX;
     double topY;
@@ -21,8 +21,6 @@ private:
 public:
     CGLContour(std::vector< coordinates >);
     virtual ~CGLContour();
-    // Drawing segment using OpenGL
-    // See CContour::ExportLine for further details
     virtual inline void ExportLine(int iPlane,int x1, int y1, int x2, int y2);
     void setX();
     void setY();
@@ -32,7 +30,8 @@ protected:
 
 inline void CGLContour::ExportLine(int iPlane,int x1, int y1, int x2, int y2)
 {
-    glColor3f(iPlane/(float)GetNPlanes(),0,1.f-iPlane/(float)GetNPlanes());
+    std::cout << x1 << " " << y1 << "        " << x2 << " " << y2 << "\n";
+    glColor3f(1.0f-iPlane/(float)GetNPlanes(),0,iPlane/(float)GetNPlanes());
     glBegin(GL_LINES);
     glVertex2f((GLfloat)(m_pLimits[0]+x1*m_dDx),(GLfloat)(m_pLimits[2]+y1*m_dDy));
     glVertex2f((GLfloat)(m_pLimits[0]+x2*m_dDx),(GLfloat)(m_pLimits[2]+y2*m_dDy));

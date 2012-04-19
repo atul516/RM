@@ -3,7 +3,7 @@
 
 #include "GLWidget.h"
 
-class Surface: public GLWidget{
+class Surface : public GLWidget{
 private:
     double rightX;
     double topY;
