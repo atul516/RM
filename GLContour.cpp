@@ -25,3 +25,7 @@ CGLContour::~CGLContour()
 {
 
 }
+
+void CGLContour::paintGL(){
+
+}

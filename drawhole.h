@@ -20,7 +20,7 @@ private:
     std::string property_unit[10];
     int no_of_holes;
     int no_of_properties;
-    std::vector<float> temp;
+    std::vector<double> temp;
 public:
     DrawHole(const char *, const char *);
     int Lithology();

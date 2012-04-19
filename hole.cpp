@@ -5,11 +5,11 @@ Hole::Hole(){
     this->hole_id = "";
 }
 
-void Hole::setHoleDip(float d){
+void Hole::setHoleDip(double d){
     this->hole_dip = d;
 }
 
-float Hole::getHoleDip(){
+double Hole::getHoleDip(){
     return this->hole_dip;
 }
 
@@ -21,29 +21,29 @@ std::string Hole::getHoleId(){
     return this->hole_id;
 }
 
-void Hole::setHoleLength(float l){
+void Hole::setHoleLength(double l){
     this->hole_length = l;
 }
 
-float Hole::getHoleLength(){
+double Hole::getHoleLength(){
     return this->hole_length;
 }
 
-void Hole::setCoordinates(float a, float b, float c){
+void Hole::setCoordinates(double a, double b, double c){
     this->hole_coordinate.x = a;
     this->hole_coordinate.y = b;
     this->hole_coordinate.z = c;
 }
 
-float Hole::getX(){
+double Hole::getX(){
     return this->hole_coordinate.x;
 }
 
-float Hole::getY(){
+double Hole::getY(){
     return this->hole_coordinate.y;
 }
 
-float Hole::getZ(){
+double Hole::getZ(){
     return this->hole_coordinate.z;
 }
 Hole::~Hole(){

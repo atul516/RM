@@ -10,8 +10,8 @@
 #endif // _MSC_VER > 1000
 
 #include "Contour.h"
-
-class CGLContour : public CContour  
+#include "GLWidget.h"
+class CGLContour : public CContour,GLWidget
 {
 public:
 	CGLContour();
@@ -20,6 +20,8 @@ public:
 	// Drawing segment using OpenGL
 	// See CContour::ExportLine for further details
 	virtual inline void ExportLine(int iPlane,int x1, int y1, int x2, int y2);
+protected:
+        void paintGL();
 };
 
 inline void CGLContour::ExportLine(int iPlane,int x1, int y1, int x2, int y2)

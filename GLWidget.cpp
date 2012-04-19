@@ -3,7 +3,7 @@
 #include <QObject>
 #include <QImage>
 #include <GLWidget.h>
-//const float BOX_SIZE = 7.0f; //The length of each side of the cube
+//const double BOX_SIZE = 7.0f; //The length of each side of the cube
 
 GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent){
     GLWidget::m_timer = new QTimer(this);
@@ -70,7 +70,7 @@ void GLWidget::drawCube(){
     spcf = parseData("hole.csv");
     QFont f;
     QString str;
-    float depth[6];
+    double depth[6];
     std::string name[10];
     std::string UCS[10];
     std::string RQD[10];

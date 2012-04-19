@@ -5,10 +5,10 @@
 
 class Surface: public GLWidget{
 private:
-    float rightX;
-    float topY;
-    float bottomY;
-    float leftX;
+    double rightX;
+    double topY;
+    double bottomY;
+    double leftX;
     int division_factor;
     int surface_type;
     std::vector< coordinates > holes_coordinates;
@@ -19,14 +19,14 @@ public:
     void setY();
     void setDivisionFactor(int);
     void setSurfaceType(int);
-    float getRightX();
-    float getTopY();
-    float getBottomY();
-    float getLeftX();
+    double getRightX();
+    double getTopY();
+    double getBottomY();
+    double getLeftX();
     int getDivisionFactor();
     int getSurfaceType();
     void computeNodes();
-    float computeZ(float,float);
+    double computeZ(double,double);
     void drawSurface();
 protected:
     void paintGL();

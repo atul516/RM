@@ -4,9 +4,9 @@
 #include "imageloader.h"
 
 struct coordinates{
-    float x;
-    float y;
-    float z;
+    double x;
+    double y;
+    double z;
 };
 
 class GLWidget : public QGLWidget {
@@ -17,16 +17,16 @@ public:
     void updateGL();
 
 protected:
-    GLfloat angle_x;
-    GLfloat angle_y;
-    float depth;
-    float left;
-    float top;
+    GLdouble angle_x;
+    GLdouble angle_y;
+    double depth;
+    double left;
+    double top;
     bool dragging;
-    float drag_x_origin;
-    float drag_y_origin;
-    float drag_x_end;
-    float drag_y_end;
+    double drag_x_origin;
+    double drag_y_origin;
+    double drag_x_end;
+    double drag_y_end;
     void initializeGL();
     void resizeGL(int w, int h);
     void mousePressEvent(QMouseEvent *event);

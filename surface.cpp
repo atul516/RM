@@ -1,8 +1,8 @@
 #include "surface.h"
 #include <iostream>
 void Surface::setX(){
-    float min = this->holes_coordinates[0].x;
-    float max = this->holes_coordinates[0].x;
+    double min = this->holes_coordinates[0].x;
+    double max = this->holes_coordinates[0].x;
     for(int i=1;i<this->holes_coordinates.size();i++){
         if(this->holes_coordinates[i].x < min)
             min = this->holes_coordinates[i].x;
@@ -14,8 +14,8 @@ void Surface::setX(){
 }
 
 void Surface::setY(){
-    float min = this->holes_coordinates[0].y;
-    float max = this->holes_coordinates[0].y;
+    double min = this->holes_coordinates[0].y;
+    double max = this->holes_coordinates[0].y;
     for(int i=1;i<this->holes_coordinates.size();i++){
         if(this->holes_coordinates[i].y < min)
             min = this->holes_coordinates[i].y;
@@ -34,19 +34,19 @@ void Surface::setSurfaceType(int s){
     this->surface_type = s;
 }
 
-float Surface::getRightX(){
+double Surface::getRightX(){
     return this->rightX;
 }
 
-float Surface::getTopY(){
+double Surface::getTopY(){
     return this->topY;
 }
 
-float Surface::getBottomY(){
+double Surface::getBottomY(){
     return this->bottomY;
 }
 
-float Surface::getLeftX(){
+double Surface::getLeftX(){
     return this->leftX;
 }
 
@@ -61,10 +61,10 @@ int Surface::getSurfaceType(){
 void Surface::computeNodes(){
     //std::cout << this->getRightX() << " " << this->getLeftX() << "\n";
     //std::cout << this->getTopY() << " " << this->getBottomY();
-    float width = this->getRightX() - this->getLeftX();
-    float height = this->getTopY() - this->getBottomY();
-    float nodew = width/this->division_factor;
-    float nodeh = height/this->division_factor;
+    double width = this->getRightX() - this->getLeftX();
+    double height = this->getTopY() - this->getBottomY();
+    double nodew = width/this->division_factor;
+    double nodeh = height/this->division_factor;
     std::vector< coordinates > temp;
     coordinates temp1;
 
@@ -80,9 +80,9 @@ void Surface::computeNodes(){
     }
 }
 
-float Surface::computeZ(float x, float y){
-    float sum_rl_by_r = 0.0;
-    float sum_one_by_r = 0.0;
+double Surface::computeZ(double x, double y){
+    double sum_rl_by_r = 0.0;
+    double sum_one_by_r = 0.0;
     for(int i=0;i<this->holes_coordinates.size();i++){
         if(x == this->holes_coordinates[i].x && y == this->holes_coordinates[i].y)
             return this->holes_coordinates[i].z;
