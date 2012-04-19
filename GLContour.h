@@ -30,7 +30,6 @@ protected:
 
 inline void CGLContour::ExportLine(int iPlane,int x1, int y1, int x2, int y2)
 {
-    std::cout << x1 << " " << y1 << "        " << x2 << " " << y2 << "\n";
     glColor3f(1.0f-iPlane/(float)GetNPlanes(),0,iPlane/(float)GetNPlanes());
     glBegin(GL_LINES);
     glVertex2f((GLfloat)(m_pLimits[0]+x1*m_dDx),(GLfloat)(m_pLimits[2]+y1*m_dDy));
