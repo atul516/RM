@@ -92,6 +92,19 @@ double Surface::computeZ(double x, double y){
     return (sum_rl_by_r/sum_one_by_r);
 }
 
+void Surface::setHighLow(){
+    double min = this->holes_coordinates[0].z;
+    double max = this->holes_coordinates[0].z;
+    for(int i=1;i<this->holes_coordinates.size();i++){
+        if(this->holes_coordinates[i].y < min)
+            min = this->holes_coordinates[i].z;
+        if(this->holes_coordinates[i].y > max)
+            max = this->holes_coordinates[i].z;
+    }
+    this->highest = max;
+    this->lowest = min;
+}
+
 void Surface::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
@@ -102,7 +115,7 @@ void Surface::paintGL(){
     GLfloat lightPos[] = {-2 * BOX_SIZE, BOX_SIZE, 4 * BOX_SIZE, 1.0f};
     glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor);
     glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-    glTranslatef(-15.0f, -5.0f, this->depth - 30.0f);
+    glTranslatef(-14.0f, -5.0f, this->depth - 60.0f);
     glRotatef(this->angle_y,1.0f,0.0f,0.0f);                     // Rotate On The X Axis
     glRotatef(this->angle_x,0.0f,1.0f,0.0f);                     // Rotate On The Y Axis
     //glRotatef(this->angle,0.0f,0.0f,1.0f);                     // Rotate On The Z Axis
@@ -113,12 +126,35 @@ void Surface::paintGL(){
 }
 
 void Surface::drawSurface(){
+    float red = 0.0f;
+    float blue = 0.0f;
+    float green = 1.0f;
+    //Draw X-Axis
+    glBegin(GL_LINES);
+    glColor3f(0.0f,1.0f,0.0f);
+    glVertex3f(this->nodes[0][0].x,this->nodes[0][0].y,this->nodes[0][0].z);
+    glVertex3f(this->nodes[0][0].x + this->rightX - this->leftX,this->nodes[0][0].y,this->nodes[0][0].z);
+    glEnd();
+    //Draw Y-Axis
+    glBegin(GL_LINES);
+    glVertex3f(this->nodes[0][0].x,this->nodes[0][0].y,this->nodes[0][0].z);
+    glVertex3f(this->nodes[0][0].x,this->nodes[0][0].y + this->topY - this->bottomY,this->nodes[0][0].z);
+    glEnd();
+    //Draw Z-Axis
+    glBegin(GL_LINES);
+    glVertex3f(this->nodes[0][0].x,this->nodes[0][0].y,this->nodes[0][0].z);
+    glVertex3f(this->nodes[0][0].x,this->nodes[0][0].y,this->nodes[0][0].z + this->highest - this->lowest);
+    glEnd();
+    glColor3f(1.0f,1.0f,1.0f);
     for(int i=0;i<this->division_factor;i++){
         for(int j=0;j<this->division_factor;j++){
             if(this->getSurfaceType() == 0)
                 glBegin(GL_LINE_STRIP);
             else
                 glBegin(GL_QUAD_STRIP);
+            red = (this->nodes[i][j].z/this->highest > 0) ? (1.0f * (this->nodes[i][j].z/this->highest)) : 0.0f;
+            blue = ((this->nodes[i][j].z)/this->lowest > 0) ? (1.0f * (this->nodes[i][j].z/this->lowest)) : 0.0f;
+            glColor3f(red,green,blue);
             //glTexCoord2f(0.0f, 0.0f);
             glVertex3f(this->nodes[i][j].x,this->nodes[i][j].y,this->nodes[i][j].z);
             //glTexCoord2f(1.0f, 0.0f);
@@ -136,5 +172,6 @@ Surface::Surface(std::vector< coordinates > c, int s){
     this->holes_coordinates = c;
     this->setX();
     this->setY();
+    this->setHighLow();
     this->setSurfaceType(s);
 }

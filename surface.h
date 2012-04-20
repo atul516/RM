@@ -9,6 +9,8 @@ private:
     double topY;
     double bottomY;
     double leftX;
+    double highest;
+    double lowest;
     int division_factor;
     int surface_type;
     std::vector< coordinates > holes_coordinates;
@@ -17,6 +19,7 @@ public:
     Surface(std::vector< coordinates >,int);
     void setX();
     void setY();
+    void setHighLow();
     void setDivisionFactor(int);
     void setSurfaceType(int);
     double getRightX();

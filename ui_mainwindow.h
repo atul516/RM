@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Fri Apr 20 03:10:39 2012
+** Created: Fri Apr 20 05:47:56 2012
 **      by: Qt User Interface Compiler version 4.7.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -51,6 +51,7 @@ public:
     QComboBox *comboBox_2;
     QPushButton *pushButton_3;
     QPushButton *pushButton_4;
+    QCheckBox *checkBox_3;
     QFrame *frame_3;
     QLabel *label_8;
     QComboBox *comboBox_3;
@@ -79,7 +80,7 @@ public:
         label_3->setGeometry(QRect(10, 20, 91, 21));
         label_4 = new QLabel(centralwidget);
         label_4->setObjectName(QString::fromUtf8("label_4"));
-        label_4->setGeometry(QRect(10, 190, 111, 21));
+        label_4->setGeometry(QRect(10, 190, 191, 21));
         label_7 = new QLabel(centralwidget);
         label_7->setObjectName(QString::fromUtf8("label_7"));
         label_7->setGeometry(QRect(10, 320, 111, 21));
@@ -138,6 +139,9 @@ public:
         pushButton_4 = new QPushButton(frame_2);
         pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
         pushButton_4->setGeometry(QRect(260, 60, 81, 31));
+        checkBox_3 = new QCheckBox(frame_2);
+        checkBox_3->setObjectName(QString::fromUtf8("checkBox_3"));
+        checkBox_3->setGeometry(QRect(10, 70, 121, 26));
         frame_3 = new QFrame(centralwidget);
         frame_3->setObjectName(QString::fromUtf8("frame_3"));
         frame_3->setGeometry(QRect(10, 340, 351, 121));
@@ -175,8 +179,8 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
-        label_3->setText(QApplication::translate("MainWindow", "Display Hole:-", 0, QApplication::UnicodeUTF8));
-        label_4->setText(QApplication::translate("MainWindow", "Display Surface:-", 0, QApplication::UnicodeUTF8));
+        label_3->setText(QApplication::translate("MainWindow", "Draw Hole:-", 0, QApplication::UnicodeUTF8));
+        label_4->setText(QApplication::translate("MainWindow", "Draw Surface and/or Seam:-", 0, QApplication::UnicodeUTF8));
         label_7->setText(QApplication::translate("MainWindow", "Draw Contours:-", 0, QApplication::UnicodeUTF8));
         pushButton->setText(QApplication::translate("MainWindow", "Parse Files", 0, QApplication::UnicodeUTF8));
         pushButton_2->setText(QApplication::translate("MainWindow", "Draw", 0, QApplication::UnicodeUTF8));
@@ -196,6 +200,7 @@ public:
         );
         pushButton_3->setText(QApplication::translate("MainWindow", "Compute ", 0, QApplication::UnicodeUTF8));
         pushButton_4->setText(QApplication::translate("MainWindow", "Draw", 0, QApplication::UnicodeUTF8));
+        checkBox_3->setText(QApplication::translate("MainWindow", "Display Seam", 0, QApplication::UnicodeUTF8));
         label_8->setText(QApplication::translate("MainWindow", "Field Function:", 0, QApplication::UnicodeUTF8));
         label_9->setText(QApplication::translate("MainWindow", "Precision:", 0, QApplication::UnicodeUTF8));
         lineEdit_4->setText(QApplication::translate("MainWindow", "50", 0, QApplication::UnicodeUTF8));
