@@ -117,8 +117,8 @@ void Surface::paintGL(){
     glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
     glTranslatef(-14.0f, -5.0f, this->depth - 60.0f);
     glRotatef(this->angle_y,1.0f,0.0f,0.0f);                     // Rotate On The X Axis
-    glRotatef(this->angle_x,0.0f,1.0f,0.0f);                     // Rotate On The Y Axis
-    //glRotatef(this->angle,0.0f,0.0f,1.0f);                     // Rotate On The Z Axis
+    //glRotatef(this->angle_x,0.0f,1.0f,0.0f);                     // Rotate On The Y Axis
+    glRotatef(this->angle_x,0.0f,0.0f,1.0f);                     // Rotate On The Z Axis
     //glScalef(2.0f, 2.0f, 2.0f); //Scale by 0.7 in the x, y, and z directions
     //swapBuffers();
     //GLWidget::m_timer->start(100);
