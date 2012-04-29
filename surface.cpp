@@ -58,7 +58,7 @@ int Surface::getSurfaceType(){
     return this->surface_type;
 }
 
-void Surface::computeNodes(){
+void Surface::computeSurfaceNodes(){
     //std::cout << this->getRightX() << " " << this->getLeftX() << "\n";
     //std::cout << this->getTopY() << " " << this->getBottomY();
     double width = this->getRightX() - this->getLeftX();
@@ -75,7 +75,7 @@ void Surface::computeNodes(){
             temp1.z = this->computeZ(temp1.x,temp1.y);
             temp.push_back(temp1);
         }
-        this->nodes.push_back(temp);
+        this->surface_nodes.push_back(temp);
         temp.clear();
     }
 }
@@ -132,18 +132,18 @@ void Surface::drawSurface(){
     //Draw X-Axis
     glBegin(GL_LINES);
     glColor3f(0.0f,1.0f,0.0f);
-    glVertex3f(this->nodes[0][0].x,this->nodes[0][0].y,this->nodes[0][0].z);
-    glVertex3f(this->nodes[0][0].x + this->rightX - this->leftX,this->nodes[0][0].y,this->nodes[0][0].z);
+    glVertex3f(this->surface_nodes[0][0].x,this->surface_nodes[0][0].y,this->surface_nodes[0][0].z);
+    glVertex3f(this->surface_nodes[0][0].x + this->rightX - this->leftX,this->surface_nodes[0][0].y,this->surface_nodes[0][0].z);
     glEnd();
     //Draw Y-Axis
     glBegin(GL_LINES);
-    glVertex3f(this->nodes[0][0].x,this->nodes[0][0].y,this->nodes[0][0].z);
-    glVertex3f(this->nodes[0][0].x,this->nodes[0][0].y + this->topY - this->bottomY,this->nodes[0][0].z);
+    glVertex3f(this->surface_nodes[0][0].x,this->surface_nodes[0][0].y,this->surface_nodes[0][0].z);
+    glVertex3f(this->surface_nodes[0][0].x,this->surface_nodes[0][0].y + this->topY - this->bottomY,this->surface_nodes[0][0].z);
     glEnd();
     //Draw Z-Axis
     glBegin(GL_LINES);
-    glVertex3f(this->nodes[0][0].x,this->nodes[0][0].y,this->nodes[0][0].z);
-    glVertex3f(this->nodes[0][0].x,this->nodes[0][0].y,this->nodes[0][0].z + this->highest - this->lowest);
+    glVertex3f(this->surface_nodes[0][0].x,this->surface_nodes[0][0].y,this->surface_nodes[0][0].z);
+    glVertex3f(this->surface_nodes[0][0].x,this->surface_nodes[0][0].y,this->surface_nodes[0][0].z + this->highest - this->lowest);
     glEnd();
     glColor3f(1.0f,1.0f,1.0f);
     for(int i=0;i<this->division_factor;i++){
@@ -152,20 +152,24 @@ void Surface::drawSurface(){
                 glBegin(GL_LINE_STRIP);
             else
                 glBegin(GL_QUAD_STRIP);
-            red = (this->nodes[i][j].z/this->highest > 0) ? (1.0f * (this->nodes[i][j].z/this->highest)) : 0.0f;
-            blue = ((this->nodes[i][j].z)/this->lowest > 0) ? (1.0f * (this->nodes[i][j].z/this->lowest)) : 0.0f;
+            red = (this->surface_nodes[i][j].z/this->highest > 0) ? (1.0f * (this->surface_nodes[i][j].z/this->highest)) : 0.0f;
+            blue = ((this->surface_nodes[i][j].z)/this->lowest > 0) ? (1.0f * (this->surface_nodes[i][j].z/this->lowest)) : 0.0f;
             glColor3f(red,green,blue);
             //glTexCoord2f(0.0f, 0.0f);
-            glVertex3f(this->nodes[i][j].x,this->nodes[i][j].y,this->nodes[i][j].z);
+            glVertex3f(this->surface_nodes[i][j].x,this->surface_nodes[i][j].y,this->surface_nodes[i][j].z);
             //glTexCoord2f(1.0f, 0.0f);
-            glVertex3f(this->nodes[i][j+1].x,this->nodes[i][j+1].y,this->nodes[i][j+1].z);
+            glVertex3f(this->surface_nodes[i][j+1].x,this->surface_nodes[i][j+1].y,this->surface_nodes[i][j+1].z);
             //glTexCoord2f(1.0f, 1.0f);
-            glVertex3f(this->nodes[i+1][j].x,this->nodes[i+1][j].y,this->nodes[i+1][j].z);
+            glVertex3f(this->surface_nodes[i+1][j].x,this->surface_nodes[i+1][j].y,this->surface_nodes[i+1][j].z);
             //glTexCoord2f(0.0f, 1.0f);
-            glVertex3f(this->nodes[i+1][j+1].x,this->nodes[i+1][j+1].y,this->nodes[i+1][j+1].z);
+            glVertex3f(this->surface_nodes[i+1][j+1].x,this->surface_nodes[i+1][j+1].y,this->surface_nodes[i+1][j+1].z);
             glEnd();
         }
     }
+}
+
+void Surface::drawSeam(){
+
 }
 
 Surface::Surface(std::vector< coordinates > c, int s){

@@ -96,7 +96,9 @@ void MainWindow::on_pushButton_3_clicked(){
     this->ui->pushButton_3->setText(QString("Computing"));
     this->surface = new Surface(this->hole->getHoleCoordinates(),ui->comboBox_2->currentIndex());
     this->surface->setDivisionFactor(atoi(this->ui->lineEdit_3->text().toStdString().c_str()));
-    this->surface->computeNodes();
+    this->surface->computeSurfaceNodes();
+    if(ui->checkBox_3->isChecked()){
+    }
     this->ui->pushButton_3->setText(QString("Compute"));
 }
 
