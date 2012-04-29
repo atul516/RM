@@ -21,12 +21,12 @@ std::string Hole::getHoleId(){
     return this->hole_id;
 }
 
-void Hole::setHoleLength(double l){
-    this->hole_length = l;
+void Hole::setHoleDepth(double l){
+    this->hole_depth = l;
 }
 
-double Hole::getHoleLength(){
-    return this->hole_length;
+double Hole::getHoleDepth(){
+    return this->hole_depth;
 }
 
 void Hole::setCoordinates(double a, double b, double c){

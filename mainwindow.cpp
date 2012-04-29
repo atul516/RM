@@ -98,6 +98,8 @@ void MainWindow::on_pushButton_3_clicked(){
     this->surface->setDivisionFactor(atoi(this->ui->lineEdit_3->text().toStdString().c_str()));
     this->surface->computeSurfaceNodes();
     if(ui->checkBox_3->isChecked()){
+        this->surface->setSeamCoordinates(this->hole->getSeamCoordinates());
+        this->surface->setHoleDepths(this->hole->getHoleDepths());
     }
     this->ui->pushButton_3->setText(QString("Compute"));
 }

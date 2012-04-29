@@ -13,10 +13,12 @@ private:
     double lowest;
     int division_factor;
     int surface_type;
+    bool show_holes;
     std::vector< coordinates > holes_coordinates;
-    std::vector< std::vector< coordinates > >seam_coordinates; //per row, it contains seam base/top coordinates
+    std::vector< std::vector< double > >seam_coordinates; //per row, it contains seam base/top coordinates
     std::vector< std::vector< coordinates > > surface_nodes;
-    std::vector<std::vector< std::vector< coordinates > > >seam_nodes;
+    std::vector< std::vector< std::vector< double > > >seam_nodes; //double, considering all holes are vertically straight
+    std::vector< double > hole_depths;
 public:
     Surface(std::vector< coordinates >,int);
     void setX();
@@ -24,7 +26,8 @@ public:
     void setHighLow();
     void setDivisionFactor(int);
     void setSurfaceType(int);
-    void setSeamCoordinates();
+    void setSeamCoordinates(std::vector< std::vector< double > >);
+    void setHoleDepths(std::vector< double >);
     double getRightX();
     double getTopY();
     double getBottomY();
@@ -36,6 +39,7 @@ public:
     double computeZ(double,double);
     void drawSurface();
     void drawSeam();
+    void drawHolesUnderSurface();
 protected:
     void paintGL();
 };

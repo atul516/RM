@@ -43,12 +43,17 @@ void DrawHole::setHoleParams(){
             no_of_holes++;
             property_counter = 0;
             i++;
-            for(int c=0;c<temp.size();c++){
+            for(int c=0;c<temp.size();c++){                
+                if(h->material_name[c].compare("coal") == 0){
+                    h->seam_top_coordinate.z = temp[c-1];
+                    h->seam_bottom_coordinate.z = temp[c];
+                }
                 if(c!=0)
                     h->material_depth.push_back((temp[c] - temp[c-1])/REDUCTION_FACTOR);
                 else
                     h->material_depth.push_back(temp[c]/REDUCTION_FACTOR);
             }
+            h->setHoleDepth(temp[temp.size()-1]);
             this->holes.push_back(*h);
             temp.clear();
             h = NULL;
@@ -75,7 +80,6 @@ void DrawHole::setHoleParams(){
     i=0;
     while(i<((int)this->hole_info.size())){
         this->holes[i].setHoleId(this->hole_info[i][0].c_str());
-        this->holes[i].setHoleLength(atof(this->hole_info[i][1].c_str()));
         this->holes[i].setHoleDip(atof(this->hole_info[i][2].c_str()));
         this->holes[i].setCoordinates(atof(this->hole_info[i][3].c_str()),atof(this->hole_info[i][4].c_str()),atof(this->hole_info[i][5].c_str()));
         i++;
@@ -99,7 +103,7 @@ int DrawHole::Caption(){
     renderText(0.0f, 0.0f, DISPLAY_HEIGHT, QString(label.str().c_str()),f);
     glTranslatef(0.0f, -0.4f, 0.0f);
     label.str(std::string());
-    label << "Length : " << this->holes[which_hole].getHoleLength();
+    label << "Length : " << this->holes[which_hole].getHoleDepth();
     renderText(0.0f, 0.0f, DISPLAY_HEIGHT, QString(label.str().c_str()),f);
     glTranslatef(0.0f, -0.4f, 0.0f);
     label.str(std::string());
@@ -263,6 +267,20 @@ int DrawHole::getHoleCount(){
     return no_of_holes;
 }
 
+std::vector< std::vector< double > > DrawHole::getSeamCoordinates(){
+    std::vector< std::vector< double > > c;
+    std::vector< double > temp;
+    double temp1;
+    for(int i=0;i<this->holes.size();i++){
+        temp1 = this->holes[i].seam_top_coordinate.z;
+        temp.push_back(temp1);
+        temp1 = this->holes[i].seam_bottom_coordinate.z;
+        temp.push_back(temp1);
+        c.push_back(temp);
+    }
+    return c;
+}
+
 std::vector< coordinates > DrawHole::getHoleCoordinates(){
     std::vector< coordinates > c;
     coordinates temp;
@@ -273,4 +291,13 @@ std::vector< coordinates > DrawHole::getHoleCoordinates(){
         c.push_back(temp);
     }
     return c;
+}
+
+std::vector< double > DrawHole::getHoleDepths(){
+    std::vector< double > c;
+    for(int i=0;i<this->holes.size();i++){
+        c.push_back(this->holes[i].getHoleDepth());
+    }
+    return c;
+
 }

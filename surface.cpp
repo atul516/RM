@@ -34,6 +34,15 @@ void Surface::setSurfaceType(int s){
     this->surface_type = s;
 }
 
+void Surface::setSeamCoordinates(std::vector< std::vector< double > > s){
+    this->seam_coordinates = s;
+    this->show_holes = true;
+}
+
+void Surface::setHoleDepths(std::vector< double > d){
+    this->hole_depths = d;
+}
+
 double Surface::getRightX(){
     return this->rightX;
 }
@@ -144,7 +153,9 @@ void Surface::drawSurface(){
     glBegin(GL_LINES);
     glVertex3f(this->surface_nodes[0][0].x,this->surface_nodes[0][0].y,this->surface_nodes[0][0].z);
     glVertex3f(this->surface_nodes[0][0].x,this->surface_nodes[0][0].y,this->surface_nodes[0][0].z + this->highest - this->lowest);
-    glEnd();
+    glEnd();    
+    if(this->show_holes)
+        this->drawHolesUnderSurface();
     glColor3f(1.0f,1.0f,1.0f);
     for(int i=0;i<this->division_factor;i++){
         for(int j=0;j<this->division_factor;j++){
@@ -165,15 +176,22 @@ void Surface::drawSurface(){
             glVertex3f(this->surface_nodes[i+1][j+1].x,this->surface_nodes[i+1][j+1].y,this->surface_nodes[i+1][j+1].z);
             glEnd();
         }
-    }
+    }    
 }
 
-void Surface::drawSeam(){
-
+void Surface::drawHolesUnderSurface(){
+    for(int i=0;i<this->holes_coordinates.size();i++){
+        glColor3f(1.0f,0.0f,0.0f);
+        glBegin(GL_LINES);
+        glVertex3f(this->holes_coordinates[i].x,this->holes_coordinates[i].y,this->holes_coordinates[i].z);
+        glVertex3f(this->holes_coordinates[i].x,this->holes_coordinates[i].y,-this->hole_depths[i]);
+        glEnd();
+    }
 }
 
 Surface::Surface(std::vector< coordinates > c, int s){
     this->holes_coordinates = c;
+    this->show_holes = false;
     this->setX();
     this->setY();
     this->setHighLow();

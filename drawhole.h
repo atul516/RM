@@ -28,6 +28,8 @@ public:
     int Caption();
     int drawHole();
     std::vector< coordinates > getHoleCoordinates();
+    std::vector< std::vector< double > > getSeamCoordinates();
+    std::vector< double > getHoleDepths();
     void setDisplayType(int);
     void setHoleParams();
     void setTextures();
