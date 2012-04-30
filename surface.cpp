@@ -124,7 +124,7 @@ void Surface::paintGL(){
     GLfloat lightPos[] = {-2 * BOX_SIZE, BOX_SIZE, 4 * BOX_SIZE, 1.0f};
     glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor);
     glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-    glTranslatef(-14.0f, -5.0f, this->depth - 60.0f);
+    glTranslatef(-14.0f, -2.0f, this->depth - 60.0f);
     glRotatef(this->angle_y,1.0f,0.0f,0.0f);                     // Rotate On The X Axis
     //glRotatef(this->angle_x,0.0f,1.0f,0.0f);                     // Rotate On The Y Axis
     glRotatef(this->angle_x,0.0f,0.0f,1.0f);                     // Rotate On The Z Axis
@@ -189,6 +189,26 @@ void Surface::drawHolesUnderSurface(){
         glBegin(GL_LINES);
         glVertex3f(this->holes_coordinates[i].x,this->holes_coordinates[i].y,this->holes_coordinates[i].z);
         glVertex3f(this->holes_coordinates[i].x,this->holes_coordinates[i].y,-this->hole_depths[i]);
+        glEnd();
+        this->drawSeamPatches(i);
+    }
+}
+
+void Surface::drawSeamPatches(int i){
+    int no_of_patches = (this->seam_coordinates[i][1] - this->seam_coordinates[i][0])/0.25;
+    double left_point = this->holes_coordinates[i].x - 0.3;
+    double right_point = this->holes_coordinates[i].x + 0.3;
+    double top_point = this->holes_coordinates[i].y + 0.3;
+    double bottom_point = this->holes_coordinates[i].y - 0.3;
+    glColor3f(0.0f,0.0f,1.0f);
+    for(int j=0;j<no_of_patches;j++){
+        glBegin(GL_LINES);
+        glVertex3f(left_point,this->holes_coordinates[i].y,-(this->seam_coordinates[i][0] + j*0.25));
+        glVertex3f(right_point,this->holes_coordinates[i].y,-(this->seam_coordinates[i][0] + j*0.25));
+        glEnd();
+        glBegin(GL_LINES);
+        glVertex3f(this->holes_coordinates[i].x,top_point,-(this->seam_coordinates[i][0] + j*0.25));
+        glVertex3f(this->holes_coordinates[i].x,bottom_point,-(this->seam_coordinates[i][0] + j*0.25));
         glEnd();
     }
 }

@@ -39,6 +39,7 @@ public:
     double computeZ(double,double);
     void drawSurface();
     void drawSeam();
+    void drawSeamPatches(int);
     void drawHolesUnderSurface();
 protected:
     void paintGL();

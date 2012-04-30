@@ -277,6 +277,7 @@ std::vector< std::vector< double > > DrawHole::getSeamCoordinates(){
         temp1 = this->holes[i].seam_bottom_coordinate.z;
         temp.push_back(temp1);
         c.push_back(temp);
+        temp.clear();
     }
     return c;
 }
