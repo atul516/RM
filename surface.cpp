@@ -34,9 +34,16 @@ void Surface::setSurfaceType(int s){
     this->surface_type = s;
 }
 
+void Surface::setShowSeam(bool b){
+    this->show_seam = b;
+}
+
+void Surface::setShowHoles(bool b){
+    this->show_holes = b;
+}
+
 void Surface::setSeamCoordinates(std::vector< std::vector< double > > s){
     this->seam_coordinates = s;
-    this->show_holes = true;
 }
 
 void Surface::setHoleDepths(std::vector< double > d){
@@ -81,7 +88,7 @@ void Surface::computeSurfaceNodes(){
         for(int j=0;j<=this->division_factor;j++){
             temp1.x = this->getLeftX() + (j*nodew);
             temp1.y = this->getBottomY() + (i*nodeh);
-            temp1.z = this->computeZ(temp1.x,temp1.y);
+            temp1.z = this->computeSurfaceZ(temp1.x,temp1.y);
             temp.push_back(temp1);
         }
         this->surface_nodes.push_back(temp);
@@ -89,7 +96,56 @@ void Surface::computeSurfaceNodes(){
     }
 }
 
-double Surface::computeZ(double x, double y){
+void Surface::computeSeamNodes(){
+    double width = this->getRightX() - this->getLeftX();
+    double height = this->getTopY() - this->getBottomY();
+    double nodew = width/this->division_factor;
+    double nodeh = height/this->division_factor;
+    std::vector< coordinates > temp;
+    coordinates temp1;
+
+    for(int i=0;i<=this->division_factor;i++){
+        for(int j=0;j<=this->division_factor;j++){
+            temp1.x = this->getLeftX() + (j*nodew);
+            temp1.y = this->getBottomY() + (i*nodeh);
+            temp1.z = this->computeSeamZ(temp1.x,temp1.y,0);
+            temp.push_back(temp1);
+        }
+        this->seam_top_nodes.push_back(temp);
+        temp.clear();
+    }
+    for(int i=0;i<=this->division_factor;i++){
+        for(int j=0;j<=this->division_factor;j++){
+            temp1.x = this->getLeftX() + (j*nodew);
+            temp1.y = this->getBottomY() + (i*nodeh);
+            temp1.z = this->computeSeamZ(temp1.x,temp1.y,1);
+            temp.push_back(temp1);
+        }
+        this->seam_bottom_nodes.push_back(temp);
+        temp.clear();
+    }
+}
+
+double Surface::computeSeamZ(double x, double y, int z){
+    double sum_rl_by_r = 0.0;
+    double sum_one_by_r = 0.0;
+    for(int i=0;i<this->seam_coordinates.size();i++){
+        if(x == this->holes_coordinates[i].x && y == this->holes_coordinates[i].y){
+            if(z==0)
+                return this->seam_coordinates[i][0];
+            else if(z==1)
+                return this->seam_coordinates[i][1];
+        }
+        sum_one_by_r += 1/(pow((x-this->holes_coordinates[i].x),2)+pow((y-this->holes_coordinates[i].y),2));
+        if(z==0)
+            sum_rl_by_r += (this->seam_coordinates[i][0])/(pow((x-this->holes_coordinates[i].x),2)+pow((y-this->holes_coordinates[i].y),2));
+        else if(z==1)
+            sum_rl_by_r += (this->seam_coordinates[i][1])/(pow((x-this->holes_coordinates[i].x),2)+pow((y-this->holes_coordinates[i].y),2));
+    }
+    return (sum_rl_by_r/sum_one_by_r);
+}
+
+double Surface::computeSurfaceZ(double x, double y){
     double sum_rl_by_r = 0.0;
     double sum_one_by_r = 0.0;
     for(int i=0;i<this->holes_coordinates.size();i++){
@@ -160,7 +216,6 @@ void Surface::drawSurface(){
     renderText(this->surface_nodes[0][0].x,this->surface_nodes[0][0].y,this->surface_nodes[0][0].z + this->highest - this->lowest, QString("Z-Axis"),f);
     if(this->show_holes)
         this->drawHolesUnderSurface();
-    glColor3f(1.0f,1.0f,1.0f);
     for(int i=0;i<this->division_factor;i++){
         for(int j=0;j<this->division_factor;j++){
             if(this->getSurfaceType() == 0)
@@ -181,6 +236,8 @@ void Surface::drawSurface(){
             glEnd();
         }
     }    
+    if(this->show_seam)
+        drawSeam();
 }
 
 void Surface::drawHolesUnderSurface(){
@@ -213,12 +270,51 @@ void Surface::drawSeamPatches(int i){
     }
 }
 
+void Surface::drawSeam(){
+    glColor3f(0.5f,1.2f,1.2f);
+    for(int i=0;i<this->division_factor;i++){
+        for(int j=0;j<this->division_factor;j++){
+            if(this->getSurfaceType() == 0)
+                glBegin(GL_LINE_STRIP);
+            else
+                glBegin(GL_QUAD_STRIP);
+            //glTexCoord2f(0.0f, 0.0f);
+            glVertex3f(this->seam_top_nodes[i][j].x,this->seam_top_nodes[i][j].y,-this->seam_top_nodes[i][j].z);
+            //glTexCoord2f(1.0f, 0.0f);
+            glVertex3f(this->seam_top_nodes[i][j+1].x,this->seam_top_nodes[i][j+1].y,-this->seam_top_nodes[i][j+1].z);
+            //glTexCoord2f(1.0f, 1.0f);
+            glVertex3f(this->seam_top_nodes[i+1][j].x,this->seam_top_nodes[i+1][j].y,-this->seam_top_nodes[i+1][j].z);
+            //glTexCoord2f(0.0f, 1.0f);
+            glVertex3f(this->seam_top_nodes[i+1][j+1].x,this->seam_top_nodes[i+1][j+1].y,-this->seam_top_nodes[i+1][j+1].z);
+            glEnd();
+        }
+    }
+    for(int i=0;i<this->division_factor;i++){
+        for(int j=0;j<this->division_factor;j++){
+            if(this->getSurfaceType() == 0)
+                glBegin(GL_LINE_STRIP);
+            else
+                glBegin(GL_QUAD_STRIP);
+            //glTexCoord2f(0.0f, 0.0f);
+            glVertex3f(this->seam_bottom_nodes[i][j].x,this->seam_bottom_nodes[i][j].y,-this->seam_bottom_nodes[i][j].z);
+            //glTexCoord2f(1.0f, 0.0f);
+            glVertex3f(this->seam_bottom_nodes[i][j+1].x,this->seam_bottom_nodes[i][j+1].y,-this->seam_bottom_nodes[i][j+1].z);
+            //glTexCoord2f(1.0f, 1.0f);
+            glVertex3f(this->seam_bottom_nodes[i+1][j].x,this->seam_bottom_nodes[i+1][j].y,-this->seam_bottom_nodes[i+1][j].z);
+            //glTexCoord2f(0.0f, 1.0f);
+            glVertex3f(this->seam_bottom_nodes[i+1][j+1].x,this->seam_bottom_nodes[i+1][j+1].y,-this->seam_bottom_nodes[i+1][j+1].z);
+            glEnd();
+        }
+    }
+}
+
 Surface::Surface(std::vector< coordinates > c, int s){
     this->depth = -84.0f;
     this->left = -14.0f;
     this->top = -2.0f;
     this->holes_coordinates = c;
     this->show_holes = false;
+    this->show_seam = false;
     this->setX();
     this->setY();
     this->setHighLow();

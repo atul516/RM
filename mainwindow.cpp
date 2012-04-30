@@ -100,6 +100,11 @@ void MainWindow::on_pushButton_3_clicked(){
     if(ui->checkBox_3->isChecked()){
         this->surface->setSeamCoordinates(this->hole->getSeamCoordinates());
         this->surface->setHoleDepths(this->hole->getHoleDepths());
+        this->surface->setShowHoles(true);
+    }
+    if(ui->checkBox_4->isChecked()){
+        this->surface->computeSeamNodes();
+        this->surface->setShowSeam(true);
     }
     this->ui->pushButton_3->setText(QString("Compute"));
 }
