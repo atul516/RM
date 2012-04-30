@@ -12,9 +12,12 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent){
     setWindowTitle("Borehole");
     this->angle_x = 0.0;
     this->angle_y = 0.0;
-    depth = -24.0f;
-    left = -7.0f;
-    top = 6.0f;
+    this->depth = -24.0f;
+    this->left = -7.0f;
+    this->top = 6.0f;
+    this->dragging = false;
+    this->rotate = true;
+    this->speed_zoom = false;
 }
 
 void GLWidget::timeOutSlot(){
@@ -41,15 +44,6 @@ void GLWidget::initializeGL(){
     glEnable(GL_LIGHT1); //Enable light #1
     glEnable(GL_NORMALIZE); //Automatically normalize normals
     glShadeModel(GL_SMOOTH); //Enable smooth shading
-
-    /*for(int i=0; i<6; i++){
-        char s1[12];
-        sprintf(s1, "%d", i+1);
-        std::string s = "tex" + (std::string)s1 + ".bmp";
-        Image* image = loadBMP(s.c_str());
-        _textureId[i] = loadTexture(image);
-        delete image;
-    }*/
 }
 
 void GLWidget::resizeGL(int w, int h){
@@ -184,14 +178,16 @@ void getSpecifications(){
 }
 
 void GLWidget::wheelEvent(QWheelEvent *e){
-    int numDegrees = e->delta() / 8;
-    int numSteps = numDegrees / 15;
+    int numDegrees,numSteps;
+    if(this->speed_zoom == false){
+        numDegrees = e->delta() / 8;
+        numSteps = numDegrees / 10;
+    }
+    else{
+        numDegrees = e->delta() / 3;
+        numSteps = numDegrees / 3;
 
-    /*if (event->orientation() == Qt::Horizontal) {
-             scrollHorizontally(numSteps);
-         } else {
-             scrollVertically(numSteps);
-         }*/
+    }
     this->depth = this->depth + numSteps/8.0;
     this->left = this->left + numSteps/18.0;
     this->top = this->top - numSteps/20.0;
@@ -203,9 +199,14 @@ void GLWidget::wheelEvent(QWheelEvent *e){
 void GLWidget::mouseMoveEvent(QMouseEvent *e){
     if(e->buttons() & Qt::LeftButton)
     {
-        if(dragging == true){
-            this->angle_x += (e->pos().x() - drag_x_origin)/150.0f;
-            this->angle_y += (e->pos().y() - drag_y_origin)/150.0f;
+        if(this->dragging == true && this->rotate == true){
+            this->angle_x += (e->pos().x() - drag_x_origin)/200.0f;
+            this->angle_y += (e->pos().y() - drag_y_origin)/200.0f;
+            updateGL();
+        }
+        if(this->dragging == true && this->rotate == false){
+            this->left += (e->pos().x() - drag_x_origin)/500.0f;
+            this->top -= (e->pos().y() - drag_y_origin)/500.0f;
             updateGL();
         }
         e->accept();
@@ -216,13 +217,13 @@ void GLWidget::mouseMoveEvent(QMouseEvent *e){
 
 void GLWidget::mousePressEvent(QMouseEvent *e){
     if(e->buttons() & Qt::LeftButton){
-        dragging = true;
+        this->dragging = true;
         drag_x_origin = e->pos().x();
         drag_y_origin = e->pos().y();
         e->accept();
     }
     else{
-        dragging = false;
+        this->dragging = false;
         e->ignore();
     }
 }
@@ -230,7 +231,7 @@ void GLWidget::mousePressEvent(QMouseEvent *e){
 void GLWidget::mouseReleaseEvent(QMouseEvent *e){
     if(e->buttons() & Qt::LeftButton)
     {
-        dragging = false;
+        this->dragging = false;
         e->accept();
     }
 }
@@ -240,6 +241,20 @@ void GLWidget::keyPressEvent(QKeyEvent* event){
     case Qt::Key_Escape:
         close();
         break;
+    case Qt::Key_Control:
+        this->rotate = false;
+        this->speed_zoom = true;
+    default:
+        event->ignore();
+        break;
+    }
+}
+
+void GLWidget::keyReleaseEvent(QKeyEvent* event){
+    switch(event->key()) {
+    case Qt::Key_Control:
+        this->rotate = true;
+        this->speed_zoom = false;
     default:
         event->ignore();
         break;

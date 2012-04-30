@@ -23,6 +23,8 @@ protected:
     double left;
     double top;
     bool dragging;
+    bool rotate;
+    bool speed_zoom;
     double drag_x_origin;
     double drag_y_origin;
     double drag_x_end;
@@ -33,6 +35,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
     void wheelEvent(QWheelEvent *event);
     void timeout();
     void drawCube();

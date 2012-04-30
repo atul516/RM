@@ -124,7 +124,7 @@ void Surface::paintGL(){
     GLfloat lightPos[] = {-2 * BOX_SIZE, BOX_SIZE, 4 * BOX_SIZE, 1.0f};
     glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor);
     glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-    glTranslatef(-14.0f, -2.0f, this->depth - 60.0f);
+    glTranslatef(this->left, this->top, this->depth);           // Translation fix
     glRotatef(this->angle_y,1.0f,0.0f,0.0f);                     // Rotate On The X Axis
     //glRotatef(this->angle_x,0.0f,1.0f,0.0f);                     // Rotate On The Y Axis
     glRotatef(this->angle_x,0.0f,0.0f,1.0f);                     // Rotate On The Z Axis
@@ -214,6 +214,9 @@ void Surface::drawSeamPatches(int i){
 }
 
 Surface::Surface(std::vector< coordinates > c, int s){
+    this->depth = -84.0f;
+    this->left = -14.0f;
+    this->top = -2.0f;
     this->holes_coordinates = c;
     this->show_holes = false;
     this->setX();
