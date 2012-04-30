@@ -138,22 +138,26 @@ void Surface::drawSurface(){
     float red = 0.0f;
     float blue = 0.0f;
     float green = 1.0f;
+    QFont f;
     //Draw X-Axis
     glBegin(GL_LINES);
     glColor3f(0.0f,1.0f,0.0f);
     glVertex3f(this->surface_nodes[0][0].x,this->surface_nodes[0][0].y,this->surface_nodes[0][0].z);
     glVertex3f(this->surface_nodes[0][0].x + this->rightX - this->leftX,this->surface_nodes[0][0].y,this->surface_nodes[0][0].z);
     glEnd();
+    renderText(this->surface_nodes[0][0].x + this->rightX - this->leftX,this->surface_nodes[0][0].y,this->surface_nodes[0][0].z, QString("X-Axis"),f);
     //Draw Y-Axis
     glBegin(GL_LINES);
     glVertex3f(this->surface_nodes[0][0].x,this->surface_nodes[0][0].y,this->surface_nodes[0][0].z);
     glVertex3f(this->surface_nodes[0][0].x,this->surface_nodes[0][0].y + this->topY - this->bottomY,this->surface_nodes[0][0].z);
     glEnd();
+    renderText(this->surface_nodes[0][0].x,this->surface_nodes[0][0].y + this->topY - this->bottomY,this->surface_nodes[0][0].z, QString("Y-Axis"),f);
     //Draw Z-Axis
     glBegin(GL_LINES);
     glVertex3f(this->surface_nodes[0][0].x,this->surface_nodes[0][0].y,this->surface_nodes[0][0].z);
     glVertex3f(this->surface_nodes[0][0].x,this->surface_nodes[0][0].y,this->surface_nodes[0][0].z + this->highest - this->lowest);
-    glEnd();    
+    glEnd();
+    renderText(this->surface_nodes[0][0].x,this->surface_nodes[0][0].y,this->surface_nodes[0][0].z + this->highest - this->lowest, QString("Z-Axis"),f);
     if(this->show_holes)
         this->drawHolesUnderSurface();
     glColor3f(1.0f,1.0f,1.0f);

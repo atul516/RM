@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Fri Apr 20 20:10:18 2012
+** Created: Mon Apr 30 10:24:32 2012
 **      by: Qt User Interface Compiler version 4.7.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -52,6 +52,7 @@ public:
     QPushButton *pushButton_3;
     QPushButton *pushButton_4;
     QCheckBox *checkBox_3;
+    QCheckBox *checkBox_4;
     QFrame *frame_3;
     QLabel *label_8;
     QComboBox *comboBox_3;
@@ -65,14 +66,14 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(370, 500);
+        MainWindow->resize(370, 550);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
-        MainWindow->setMinimumSize(QSize(370, 500));
-        MainWindow->setMaximumSize(QSize(370, 500));
+        MainWindow->setMinimumSize(QSize(370, 550));
+        MainWindow->setMaximumSize(QSize(370, 550));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         label_3 = new QLabel(centralwidget);
@@ -83,7 +84,7 @@ public:
         label_4->setGeometry(QRect(10, 190, 191, 21));
         label_7 = new QLabel(centralwidget);
         label_7->setObjectName(QString::fromUtf8("label_7"));
-        label_7->setGeometry(QRect(10, 320, 111, 21));
+        label_7->setGeometry(QRect(10, 370, 111, 21));
         frame = new QFrame(centralwidget);
         frame->setObjectName(QString::fromUtf8("frame"));
         frame->setGeometry(QRect(10, 40, 351, 141));
@@ -118,7 +119,7 @@ public:
         lineEdit_2->setGeometry(QRect(120, 40, 101, 21));
         frame_2 = new QFrame(centralwidget);
         frame_2->setObjectName(QString::fromUtf8("frame_2"));
-        frame_2->setGeometry(QRect(10, 210, 351, 101));
+        frame_2->setGeometry(QRect(10, 210, 351, 151));
         frame_2->setFrameShape(QFrame::StyledPanel);
         frame_2->setFrameShadow(QFrame::Raised);
         label_5 = new QLabel(frame_2);
@@ -141,10 +142,13 @@ public:
         pushButton_4->setGeometry(QRect(260, 60, 81, 31));
         checkBox_3 = new QCheckBox(frame_2);
         checkBox_3->setObjectName(QString::fromUtf8("checkBox_3"));
-        checkBox_3->setGeometry(QRect(10, 70, 121, 26));
+        checkBox_3->setGeometry(QRect(10, 80, 121, 26));
+        checkBox_4 = new QCheckBox(frame_2);
+        checkBox_4->setObjectName(QString::fromUtf8("checkBox_4"));
+        checkBox_4->setGeometry(QRect(10, 110, 111, 26));
         frame_3 = new QFrame(centralwidget);
         frame_3->setObjectName(QString::fromUtf8("frame_3"));
-        frame_3->setGeometry(QRect(10, 340, 351, 121));
+        frame_3->setGeometry(QRect(10, 390, 351, 121));
         frame_3->setFrameShape(QFrame::StyledPanel);
         frame_3->setFrameShadow(QFrame::Raised);
         label_8 = new QLabel(frame_3);
@@ -200,7 +204,8 @@ public:
         );
         pushButton_3->setText(QApplication::translate("MainWindow", "Compute ", 0, QApplication::UnicodeUTF8));
         pushButton_4->setText(QApplication::translate("MainWindow", "Draw", 0, QApplication::UnicodeUTF8));
-        checkBox_3->setText(QApplication::translate("MainWindow", "Display Seam", 0, QApplication::UnicodeUTF8));
+        checkBox_3->setText(QApplication::translate("MainWindow", "Display Holes", 0, QApplication::UnicodeUTF8));
+        checkBox_4->setText(QApplication::translate("MainWindow", "Display Seam", 0, QApplication::UnicodeUTF8));
         label_8->setText(QApplication::translate("MainWindow", "Field Function:", 0, QApplication::UnicodeUTF8));
         label_9->setText(QApplication::translate("MainWindow", "Precision:", 0, QApplication::UnicodeUTF8));
         lineEdit_4->setText(QApplication::translate("MainWindow", "50", 0, QApplication::UnicodeUTF8));
