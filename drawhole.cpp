@@ -3,6 +3,7 @@
 
 int DrawHole::drawHole(){
     this->setTextures();
+    this->display_width = 2.0f;
     if(isSingle())
         this->Caption();
     else
@@ -166,6 +167,8 @@ int DrawHole::Lithology(){
     glEnable(GL_TEXTURE_2D);
     // For each hole
     for(int i=0;i<((isSingle())?1:no_of_holes);i++){
+        if(!isSingle())
+            this->display_width = 0.7f;
         // For each material type
         for(int j=0;j<this->holes[i].material_depth.size();j++){
             if(j!=0){
@@ -180,18 +183,19 @@ int DrawHole::Lithology(){
             glBegin(GL_QUADS);
             // Front Face
             glTexCoord2f(0.0f, 0.0f);
-            glVertex3f(-DISPLAY_WIDTH, -this->holes[i].material_depth[j]/2, DISPLAY_HEIGHT);
+            glVertex3f(-this->display_width, -this->holes[i].material_depth[j]/2, DISPLAY_HEIGHT);
             glTexCoord2f(1.0f, 0.0f);
-            glVertex3f(DISPLAY_WIDTH, -this->holes[i].material_depth[j]/2, DISPLAY_HEIGHT);
+            glVertex3f(this->display_width, -this->holes[i].material_depth[j]/2, DISPLAY_HEIGHT);
             glTexCoord2f(1.0f, 1.0f);
-            glVertex3f(DISPLAY_WIDTH, this->holes[i].material_depth[j]/2, DISPLAY_HEIGHT);
+            glVertex3f(this->display_width, this->holes[i].material_depth[j]/2, DISPLAY_HEIGHT);
             glTexCoord2f(0.0f, 1.0f);
-            glVertex3f(-DISPLAY_WIDTH, this->holes[i].material_depth[j]/2, DISPLAY_HEIGHT);
+            glVertex3f(-this->display_width, this->holes[i].material_depth[j]/2, DISPLAY_HEIGHT);
             glEnd();
             label.str(std::string());
             label << this->holes[i].material_name[j].c_str();
-            renderText(2.8f, 0.0f, DISPLAY_HEIGHT, QString(label.str().c_str()),f);
-            if(!isSingle())
+            if(this->isSingle())
+                renderText(2.8f, 0.0f, DISPLAY_HEIGHT, QString(label.str().c_str()),f);
+            if(!this->isSingle())
                 continue;
             glTranslatef(5.8f, 0.0f, 0.0f);
             int k;
@@ -207,7 +211,7 @@ int DrawHole::Lithology(){
             }
             glTranslatef(-(5.8f+(k)*6.5f), 0.0f, 0.0f);
         }
-        glTranslatef(5.1f, 9.0f, 0.0f);
+        glTranslatef(2.0f, 9.8f, 0.0f);
     }
     glDisable(GL_TEXTURE_2D);
 } // Done drawing lithology
@@ -221,7 +225,7 @@ void DrawHole::paintGL() {
     GLfloat ambientLight[] = {0.3f, 0.3f, 0.3f, 1.0f};
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientLight);
 
-    GLfloat lightColor[] = {DISPLAY_WIDTH, DISPLAY_WIDTH, DISPLAY_WIDTH, 1.0f};
+    GLfloat lightColor[] = {this->display_width, this->display_width, this->display_width, 1.0f};
     GLfloat lightPos[] = {-2 * BOX_SIZE, BOX_SIZE, 4 * BOX_SIZE, 1.0f};
     glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor);
     glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
