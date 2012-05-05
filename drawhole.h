@@ -22,6 +22,7 @@ private:
     int no_of_properties;
     std::vector<double> temp;
     float display_width;
+    double unit_scale_size;
 public:
     DrawHole(const char *, const char *);
     int Lithology();

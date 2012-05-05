@@ -121,12 +121,38 @@ int DrawHole::Caption(){
     glVertex3f( 25.0f, -0.02f, DISPLAY_HEIGHT);
     glVertex3f(0.0f,-0.02f, DISPLAY_HEIGHT);
     glEnd();
+    //Draw Depth Scale
     glBegin(GL_QUADS);
     glVertex3f(0.0f, 0.0f, DISPLAY_HEIGHT);
     glVertex3f( 0.02f, 0.0f, DISPLAY_HEIGHT);
     glVertex3f( 0.02f, -13.0f, DISPLAY_HEIGHT);
     glVertex3f(0.0f, -13.0f, DISPLAY_HEIGHT);
-    glEnd();    
+    glEnd();
+    glColor3f(1.0f,1.0f,1.0f);
+    this->unit_scale_size = 0.1f;
+    glTranslatef(0.0f,(-1.5f+(this->holes[this->which_hole].material_depth[0]/2)),0.0f);
+    for(int j=0;j<((43.0/REDUCTION_FACTOR)/0.1);j++){
+        glBegin(GL_LINES);
+        if(j%10 == 0){
+            glVertex3f(-0.15f,-j*this->unit_scale_size,DISPLAY_HEIGHT);
+            glVertex3f(0.15f,-j*this->unit_scale_size,DISPLAY_HEIGHT);
+        }
+        else if(j%5 == 0 && j%10 != 0){
+            glVertex3f(-0.09f,-j*this->unit_scale_size,DISPLAY_HEIGHT);
+            glVertex3f(0.09f,-j*this->unit_scale_size,DISPLAY_HEIGHT);
+        }
+        else {
+            glVertex3f(-0.05f,-j*this->unit_scale_size,DISPLAY_HEIGHT);
+            glVertex3f(0.05f,-j*this->unit_scale_size,DISPLAY_HEIGHT);
+        }
+        glEnd();
+        if(j%10 == 0){
+            label.str(std::string());
+            label << j*this->unit_scale_size*REDUCTION_FACTOR;
+            renderText(0.20f,-j*this->unit_scale_size,DISPLAY_HEIGHT,QString(label.str().c_str()),f);
+        }
+    }
+    glTranslatef(0.0f,-(-1.5f+(this->holes[this->which_hole].material_depth[0]/2)),0.0f);
     glTranslatef(8.0f, 0.0f, 0.0f);
     for(int i=2;i<no_of_properties;i++){
         glBegin(GL_QUADS);

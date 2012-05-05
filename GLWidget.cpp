@@ -186,7 +186,6 @@ void GLWidget::wheelEvent(QWheelEvent *e){
     else{
         numDegrees = e->delta() / 3;
         numSteps = numDegrees / 3;
-
     }
     this->depth = this->depth + numSteps/8.0;
     this->left = this->left + numSteps/18.0;
