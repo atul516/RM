@@ -202,11 +202,11 @@ int DrawHole::Lithology(){
             }
 
             //Bind appropriate texture
-
             glBindTexture(GL_TEXTURE_2D, this->imageloader->getTexture(this->holes[i].material_name[j]));
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glBegin(GL_QUADS);
+
             // Front Face
             glTexCoord2f(0.0f, 0.0f);
             glVertex3f(-this->display_width, -this->holes[i].material_depth[j]/2, DISPLAY_HEIGHT);

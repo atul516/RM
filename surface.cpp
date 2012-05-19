@@ -75,8 +75,6 @@ int Surface::getSurfaceType(){
 }
 
 void Surface::computeSurfaceNodes(){
-    //std::cout << this->getRightX() << " " << this->getLeftX() << "\n";
-    //std::cout << this->getTopY() << " " << this->getBottomY();
     double width = this->getRightX() - this->getLeftX();
     double height = this->getTopY() - this->getBottomY();
     double nodew = width/this->division_factor;
@@ -214,8 +212,9 @@ void Surface::drawSurface(){
     glVertex3f(this->surface_nodes[0][0].x,this->surface_nodes[0][0].y,this->surface_nodes[0][0].z + this->highest - this->lowest);
     glEnd();
     renderText(this->surface_nodes[0][0].x,this->surface_nodes[0][0].y,this->surface_nodes[0][0].z + this->highest - this->lowest, QString("Z-Axis"),f);
-    if(this->show_holes)
+    if(this->show_holes) //Draw drillholes if required
         this->drawHolesUnderSurface();
+    //Start drawing surface
     for(int i=0;i<this->division_factor;i++){
         for(int j=0;j<this->division_factor;j++){
             if(this->getSurfaceType() == 0)
@@ -235,8 +234,8 @@ void Surface::drawSurface(){
             glVertex3f(this->surface_nodes[i+1][j+1].x,this->surface_nodes[i+1][j+1].y,this->surface_nodes[i+1][j+1].z);
             glEnd();
         }
-    }    
-    if(this->show_seam)
+    } //Done drawing surface
+    if(this->show_seam) //Draw seam if required
         drawSeam();
 }
 
