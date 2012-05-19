@@ -2,10 +2,10 @@
                                      About RM
 *************************************************************************************
 The project is aimed at creating a visual Three-Dimensional graphics model of a coal 
-resource underlying the surace of earth. This computer orebody modeling project starts
-with a review of existing drill hole sample data, then the drill hole sample files are
-set-up to provide all the quantitative and qualitative information necessary to build
-a resource model. From there, the project can provide the user with the following things.
+resource underlying the surace of earth. This orebody modeling project starts
+with a review of existing drill hole data, to provide all the information necessary
+to build a resource model. From there, the project can provide the user with the
+following things.
 1. Three Dimensional model representing the above surface of the mining area. 
 2. Cross-Sectional, longitudinal view of each borehole showing the lithological
    distribution in the borehole.
@@ -13,9 +13,13 @@ a resource model. From there, the project can provide the user with the followin
 4. Three Dimensional representation of the underlying coal seam.
 5. Resource Estimation done using Inverse Distance interpolation. (to be implemented)
 6. Contour plot of the surface of the mining area. (needs much improvement)
-Some of the above implemented modules are in good state and some need various improvements.
-Improvements can be done by anybody interested in working further on the project.
 
+Some of the above implemented modules are in good state and some need various
+improvements. Improvements can be done by anybody interested in working further on
+the project.
+
+Project Linux Executable can be found at http://blog.atulsisodia.in/RM.tar.gz
+(It would require OpenGL to work)
 
 *************************************************************************************
                                   Copyright & License
@@ -47,3 +51,4 @@ Graphics Environment :- OpenGL > 4.0
 Operating System :- Any GNU/Linux distribution or Microsoft Windows.
 Version Control System :- Git.
 
+Contact me at mail@atulsisodia.in if you encounter any problems
